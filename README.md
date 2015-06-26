@@ -6,17 +6,19 @@ Here you have various, very old and untested, solutions and examples for Delphi.
 
 Most of these files were written or gathered in period of 1996-2003, that is during regime of Delphi 1.0-4.0 and Windows 95 / XP. Wherever it was possible I tested for compliance with my Windows 7, but **only as for running `.exe` files** and nothing more. I don't have any copy of Delphi currently installed and therefore I'm unable to test source codes itself.
 
-**Most of these files (except noted), examples and project are NOT authored by me. It is up to you to find information about proper author and possible license, if you want to use any of these files in your own projects**! If you run into my own piece of code, then you're free to do whatever you want with this, according to MIT license.
+**Most of these files, examples and project (except noted) are NOT authored by me. It is up to you to find information about proper author and possible license, if you want to use any of these files in your own projects**!
+
+On contrary, you can do, whatever you want (according to MIT license) with my own examples.
 
 A very short and limited list of descriptions:
 
 - `agitacja_game` -- a deadly-old (1998) Polish strategic game for two players; set your pawns against your enemy, but be careful, because if your agitators comes to close to your enemy's ones, they'll turn side and become enemy's agitators,
 
-- `aurelius` [**my own**] -- my very promising, yet never finished (never actually started) text game in Delphi, inspired by Cyberpunk; its development stopped on the very beginning of coding; it has only control console, help system and intro; fourteen years old, but intro still kicks ass! :>; in is entirely in Polish and can be source of information or example for full-screen Delphi apps, writing own help systems or using structured storage files (see end of this list); after running and getting to console you can use `pomoc` command to display in-game help (in Polish), `intro` to see game intro (also in Polish) and `koniec` to exit,
+- `aurelius` [**my own**] -- my very promising, yet never finished (never actually started) text game in Delphi, inspired by Cyberpunk; its development stopped on the very beginning of coding; it has only control console, help system and intro; fourteen years old, but intro still kicks ass! :>; in is entirely in Polish, but still can be source of information or example for full-screen Delphi apps, writing own help systems or using structured storage files (see end of this list); after running and getting to console you can use `pomoc` command to display in-game help (in Polish), `intro` to see game intro (also in Polish) and `koniec` to exit,
 
 - `banners_animation` -- very simple and very old (1998) banner animation (simple fade effect between images); has slide left/right, shutter horizontal/vertical and unroll effects,
 
-- `calmira_shell_replacer` -- very-very old (1996-1997) sources of [Calmira](https://en.wikipedia.org/wiki/Calmira) shell replacer for Windows 3.1 and 95; in case, you'd like to write your own Windows shell; more information [here](http://calmira.net/) or [here](http://calmira.de/),
+- `calmira_shell_replacer` -- very old (1997) sources of [Calmira](https://en.wikipedia.org/wiki/Calmira) shell replacer for Windows 3.1 and 95; in case, you'd like to write your own Windows shell; more information [here](http://calmira.net/) or [here](http://calmira.de/),
 
 - `column_click` -- an example implementation of column click event for list view (sorting etc.),
 
@@ -96,7 +98,7 @@ A very short and limited list of descriptions:
 
 - `structured_storage` -- a few examples and documents on creating storage files, that is a files that can contain any number of other files; full support for managing such files (reading, writing, browsing); it uses a very weak or even no compression algorithm, so you're not going to write another WinRAR using this example; but, since all operations are in-memory on-the-fly operations, you may consider this code for creating own, complex container files for your application; an unfinished `aurelius` game (see beginning of this list) is a perfect example of using structured storage,
 
-- `system_installation_date` -- measures time, that passed since current Windows installation date; in Polish and sometimes calculated period is incorrect (however, given installation date should be fine),
+- `system_installation_date` -- measures time, that passed since current Windows installation date; in Polish and sometimes calculated period is incorrect (reading installation date should be fine),
 
 - `two_apps_communication` -- how to communicate between two separated Delphi applications,
 
