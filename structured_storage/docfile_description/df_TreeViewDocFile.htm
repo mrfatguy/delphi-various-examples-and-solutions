@@ -1,0 +1,322 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+
+<h2><u>Saving a TreeView to a DocFile</u></h2>
+<p>
+
+Here is a semi-practical example demonstrating the usefulness of a DocFile.
+A very common requirement for an application that uses a TreeView, is to 
+save the TreeView to disk.
+<p>
+
+Form many people the TreeView's SaveToFile method is just not good enough as
+it only saves the tree structure. All TTreeNode information like images,
+data etc is lost.
+<p>
+
+To keep the example short I've used my
+<a href="../DocFileUtils/DocFileClasses/df__DocFileClasses.htm">TDocFile classes</a>
+to simplify things.  
+<p><br><p>
+
+
+<b><u>Saving to a DocFile</u></b>
+<p>
+
+<pre><font color=#0000ff>
+   procedure Save_CallBack(  Node : TTreeNode;  pData : pointer  );
+   var
+      stor : TDocFileStorage;
+      subStor : TDocFileStorage;
+      strmImages : TDocFileStream;
+   begin
+         <font color="#FFFFFF">{End of recursion (base case)}</font>
+      if(  (Node = nil) or (pData = nil)  ) then
+         Exit;
+
+      stor := TDocFileStorage(pData);
+
+         <font color="#FFFFFF">{Create a storage for this node
+           NB Remember the limits on a storage element's name,
+           (31 chars max etc...)}</font>
+      subStor := stor.CreateStorage(  Node.Text,  MY_STGM_CREATE  );
+
+         <font color="#FFFFFF">{Was storage created}</font>
+      if(  subStor = nil  ) then
+      begin
+         ShowMessage(  'Error creating sub-storage'  );
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Open the stream for saving the image info to}</font>
+      strmImages := subStor.CreateStream(  'Images',  MY_STGM_CREATE  );
+
+         <font color="#FFFFFF">{Images stream created?}</font>
+      if(  strmImages = nil  ) then
+      begin
+         ShowMessage(  'Error Creating stream'  )
+      end
+      else begin
+            <font color="#FFFFFF">{Save image and selected index}</font>
+         strmImages.WriteString(   IntToStr(  Node.ImageIndex  ) + #13#10 +
+                                   IntToStr(  Node.SelectedIndex  )
+                                );
+
+      end;
+
+         <font color="#FFFFFF">{Save all children}</font>
+      if(  Node.GetFirstChild <> nil  ) then
+         Save_CallBack(  Node.GetFirstChild,  subStor  );
+
+         <font color="#FFFFFF">{Save all siblings}</font>
+      if(  Node.GetNextSibling <> nil  ) then
+         Save_CallBack(  Node.GetNextSibling,  stor  );
+
+
+      strmImages.Free;
+      subStor.Free;
+   end;
+
+
+
+   procedure TForm1.but_SaveClick(Sender: TObject);
+   var
+      storFile : TDocFileStorage;
+   begin
+         <font color="#FFFFFF">{Create the file}</font>
+      storFile := CreateDocFile(   ExtractFilePath(  Application.ExeName  ) + '\z.ole',
+                                   MY_STGM_CREATE
+                                );
+
+      if(  storFile = nil  ) then
+      begin
+         ShowMessage(  'Cant create file'  );
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Start saving}</font>
+      Save_CallBack(  tv_eg5.Items[ 0 ],  storFile  );
+
+         <font color="#FFFFFF">{Done}</font>
+      storFile.Free;
+   end;
+</font></pre>
+<p><br><p>
+
+When the save button is clicked the following occurs<br>
+<ol>
+   <li>A DocFile is created</li>
+   <li>Saving of the TreeView is started by calling <b>Save_CallBack</b>
+       passing it the node (root node) to start saving from and
+	  	 storage (root storage) to start saving to</li>
+	<li>DocFile is closed</li>
+</ol>
+<p>
+
+The <b>Save_CallBack</b> function works as follows<br>
+<ol>
+   <li>Check that there is a valid node + DocFile to work with</li>
+   <li>Create a storage for the current node</li>
+	<li>Create a stream in the new storage</li>
+	<li>Save the node's image info to the stream</li>
+	<li>Save the nodes children (recursive)</li>
+	<li>Save the node's siblings (recursive)</li>
+</ol>
+<p><br><p>
+<hr>
+
+<b><u>Load data from a DocFile</u></b>
+<p>
+Loading the data back from the DocFile is slightly (only just) more complex
+than saving it. 
+<p><br><p>
+
+<pre><font color=#0000ff>
+   procedure Load_CallBack(  Node : TTreeNode;  pData : pointer  );
+   var
+      stor : TDocFileStorage;
+      substor : TDocFileStorage;
+      strmImages : TDocFileStream;
+   begin
+      stor := TDocFileStorage(pData);
+         <font color="#FFFFFF">{Open the storage for this element}</font>
+      substor := stor.OpenStorage(  Node.Text,  MY_STGM_OPEN  );
+
+         <font color="#FFFFFF">{Storage opened?}</font>
+      if(  substor = nil  ) then
+      begin
+         ShowMessage(  'Cant open storage ' + Node.Text  );
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Open the images stream}</font>
+      strmImages := substor.OpenStream(  'Images',  MY_STGM_OPEN  );
+
+         <font color="#FFFFFF">{Stream open?}</font>
+      if(  strmImages <> nil  ) then
+      begin
+         with TStringList.Create do
+         begin
+               <font color="#FFFFFF">{Load the stream's data into a TString List}</font>
+            LoadFromStream(  strmImages  );
+
+            if(  Count > 0  ) then
+            begin
+                  <font color="#FFFFFF">{Get the saved image index}</font>
+               Node.ImageIndex := StrToInt(  Strings[ 0 ]  );
+   
+               if(  Count > 1  ) then
+                     <font color="#FFFFFF">{Get the saved selected index}</font>
+                  Node.SelectedIndex := StrToInt(  Strings[ 1 ]  );
+            end;
+
+            Free;
+         end;
+
+            <font color="#FFFFFF">{Close the stream}</font>
+         strmImages.Free;
+      end;
+
+         <font color="#FFFFFF">{Enum all sub-elements}</font>
+      substor.EnumElements(  Form1.LoadName_callback,  substor  );
+
+         <font color="#FFFFFF">{Done with storage}</font>
+      substor.Free;
+   end;
+
+
+
+   function TForm1.LoadName_callback(  sElementName : WideString;
+                                       dwType : DWORD;
+                                       pData : pointer
+                                     ) : boolean;
+   var
+      Node : TTreeNode;
+      OldNode : TTreeNode;
+   begin
+         <font color="#FFFFFF">{Continue enum}</font>
+      Result := true;
+
+         <font color="#FFFFFF">{Only interested in storages}</font>
+      if(  dwType <> STGTY_STORAGE  ) then
+         Exit;
+
+         <font color="#FFFFFF">{Save the node that is currently selected}</font>
+      OldNode := tv_eg5.Selected;
+
+         <font color="#FFFFFF">{Add a new node for this element}</font>
+      Node := tv_eg5.Items.AddChild(  tv_eg5.Selected,  sElementName  );
+         <font color="#FFFFFF">{Select new node} </font>
+      Node.Selected := true;
+
+         <font color="#FFFFFF">{Load data and all sub-elements}</font>
+      Load_CallBack(  Node,  pData  );
+
+         <font color="#FFFFFF">{Select old node again}</font>
+      if(  OldNode <> nil  ) then
+         OldNode.Selected := true;
+   end;
+
+
+
+   procedure TForm1.but_LoadClick(Sender: TObject);
+   var
+      storFile : TDocFileStorage;
+   begin
+         <font color="#FFFFFF">{Open the file}</font>
+      storFile := OpenDocFile(   ExtractFilePath(  Application.ExeName  ) + '\z.ole',
+                                 MY_STGM_OPEN
+                              );
+
+         <font color="#FFFFFF">{Was the DocFile opened}</font>
+      if(  storFile = nil  ) then
+      begin
+         ShowMessage(  'Cant open file'  );
+         Exit;
+      end;
+
+        <font color="#FFFFFF">{Remove all tree nodes}</font>
+      tv_eg5.Items.Clear;
+
+         <font color="#FFFFFF">{Enum all root level elements in the storage file}</font>
+      storFile.EnumElements(  LoadName_callback,  storFile  );
+
+         <font color="#FFFFFF">{Done}</font>
+      storFile.Free;
+   end;
+</font></pre>
+<p><br><p>
+
+As you can see there are three functions involved here, the loading
+(and recursion) takes place beteen <b>LoadName_callback</b> and
+<b>Load_CallBack</b>.
+<p><br>
+
+The following picture depicts the flow of execution
+<p>
+<img src="Graphics/LoadRecursePic.gif" width=286 height=149 border=0 alt="">
+<p><br><p>
+
+When the load button is clicked<br>
+<ol>
+   <li>Open the DocFile</li>
+	<li>Clear the Tree</li>
+	<li>Start enumerating all items in the root storage.
+	    This passed control to <b>LoadName_callback</b></li>
+	<li>Close the DocFile</li>
+</ol>
+<p><br>
+
+<b>LoadName_callback</b><br>
+<ol>
+   <li>Check if the element is a storage</li>
+	<li>Get the selected node</li>
+	<li>Add a new node to the TreeNode</li>
+	<li>Select the new node</li>
+	<li>Call <b>Load_CallBack</b> to load the storages info</li>
+	<li>Select the original node again</li>
+</ol>
+<p><br>
+
+<b>Load_CallBack</b><br>
+<ol>
+   <li>Open the sub-storage for this storage element</li>
+	<li>Open the images stream</li>
+	<li>Load the image info from the stream</li>
+	<li>Close the stream</li>
+	<li>Emum all elements in the sub-storage, call <b>LoadName_callback</b></li>
+	<li>Close the sub-storage</li>
+</ol>
+<br><p><br>
+
+This example does not show saving of the TTreeNode's data to the DocFile. 
+The reason for that is that saving the TTreeNode's data is very similar to
+saving the image info to the stream. Natrally the exact method will be
+differant depending on what type of data TTreeNode.Data represents.
+
+<p><br><p>
+
+The full source code for this example is available as a zip file on the
+<a href="ZIPSource/ZipSourceIndex.htm">source code page</a>
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Compress.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<!-- <img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "> -->
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@iafrica.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>
+

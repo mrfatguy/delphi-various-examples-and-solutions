@@ -1,0 +1,174 @@
+EldoS Sounds History.
+
+-- 22 Dec 2000. (v1.12)
+
+ElAMP:
+
+* Fixed a bug in audio buffering, where exception happened sometimes. 
+
+-- 16 Dec 2000. (v1.11)
+
+ElAMP: 
+
+* Improved audio buffering.
+
+WAVMP:
+
+* Rebuilt and improved.
+
+OGGMP:
+
+Added. 
+
+-- 15 Feb 2000. (v1.09)
+
+DEMO:
+
++ New visualization stuff added: Real-Time VU Meter indicators.
++ Multiple ESP support: all supported files format can be opened.
+
+All modules:
+
+* Removed some guest files.
+* Renamed some files.
+
+ELAMP:
+
+* added DirectSound const in audio.cpp
+
+WMAMP:
+
++ included SDK directory (from original Microsoft distribution)
+* added DirectSound const in audio.cpp
+
+WAVMP:
+
+* RIFF header detection fixed. Perfect detection now.
+
+RAWMP:
+
++ New module created: Raw Audio (PCM 44100Hz 16Bit Stereo)
+
+
+-- 16 Dec 1999. bug-fix 3 (v1.08).
+
+ElAMP:
+
+* Seeking in imCallback mode fixed.
+* ID3V2 support fixed (now should correctly process all ID3V2-compliant tag
+headers. tested on all available ID3V2 streams. This means "not tested" :).
+* The last second of any stream was not played. Fixed. 
+* Annoying click at the beginning of the second song playback fixed!
+  (Fk. This is a dirty hack, not a fix at all. But at least it works... :)
+* Volume adjustment in omDirectSound fixed.
+
+Well, there are no more known bugs left in ElAMP.  
+
+
+-- 25 Nov 1999. bug-fix 2 (v1.07). 
+
+ElAMP, WAVMP:
+
+* changing playback position greatly improved.
+
+
+-- 3 Aug 1999. bug-fix 1 (v1.06).
+
+Component:
+
++ Callbacks handling improved. 
+
+ElAMP:
+
+* Fixed the "bug" when the execution halted on some lsf streams.
+* fixed the bug when restarting playback after wav output.
+
+
+-- 28 July 1999. Version 1.0 Release
+
+All modules:
+
+! OnOutput event is invoked twice per buffer - first time, when the buffer 
+  is sent to mmSystem, and second time when the buffer is returned by mmSystem
+
+* OnOutput* events are invoked for all output modes, and in correct order.
+* Some memory leaks removed
+
+ElAMP:
+
+* Fixed the bug, that caused an error with large buffers
+* Fixed(?) the bug when only half of some VBR streams is played.
+
+
+-- 30 June 1999. Version 1.0 beta 6 (pre-release)
+
+Component:
+
+! Changed the declaration of OnInputSeek event. Now the event handler 
+  SHOULD return the current position in the stream (this is used to
+  prevent players from stopping when seeking VBR streams).
+
+All modules:
+
+* Fixed(?) the bug with some strange PCI cards, when the player crashed
+  after the playback stop. 
+* Fixed the bug that prevented the module from initializing when OLE system
+  was already initialized before the module is loaded.
+
+ElAMP:
+
+* Fixed the bug with files, that have ID3v2 header.
+! Now 48KHz streams are downsampled to 24KHz when being played to MMSystem
+  (not downsampled when being played to other output). Say thanks to Billy :(.
+  This allows the module to play 48KHz to MMSystem (in earlier betas it was
+  not possible to play these files at all).
+
+// BUGS:
+
+- custom downsampling (for ex. 48000 to 44100) doesn't work. If someone helps
+  me to fix the bug, or rewrites this downsampling at all, it would be so cool.
+                                                                 
+
+-- 18 Jun 1999. Version 1.0 beta 5
+
+ElAMP:
+
+* VBR streams are played fine
+* streams made with AudioCatalyst are played fine
+* streams with RIFF header are almost always played fine (see bugs section).
+
+// BUGS:
+- on some computers RIFF-headered files are not played. On my computer these
+  exact streams are played fine. So if anyone will experience this problem,
+  please, help me to fix the bug.
+
+WMAMP:
+
+* EndPos processing fixed (actually it is made working)
+
+
+-- 10 Jun 1999. Version 1.0 beta 4
+
++ Windows Media Audio module added.
+
+Component:
+
+* Volume control improved.
+* Equalizer support added.
+
+ElAMP:
+
++ Equalizer support made public.
++ DirectSound support added.
+* Output callback processing improved.
+
+
+-- 2 Jun 1999. Version 1.0 beta 3
+
+Component: 
+
+* both input and output callbacks fixed
+
+ElAMP:
+  
+* callbacks fixed

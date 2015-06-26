@@ -1,0 +1,582 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title> Matroska DLL </title>
+</head><body>
+<style type="text/css">
+.t_courier {
+        font-size : 12pt;
+        font-family : courier;
+        font-style : normal;
+        color:#000000;
+        bgcolor: #F8F8F8;
+}
+
+.td_courier {
+        font-size : 12pt;
+        font-family : courier;
+        font-style : normal;
+        color:#000000;
+}
+.t_paraml {
+        color : #000000;
+        background : #F0F0F0;
+        th { 
+          color : #F00000;
+          font-family : sans serif;
+          background : #F0E0E0;
+        }
+}
+.tr_paraml_e {
+        color:#000000;
+        background: #F8F8F8;
+}
+.tr_paraml_o {
+        color:#000000;
+        background: #F8F8F8;
+}
+
+</style>
+
+<h1 align="center">
+matroska.dll
+</h1>
+<h3>Downlaods</h3>
+<ul>
+<li><a href="http://www.alexander-noe.com/video/matroskadll/matroska_dll.zip">Download dll</a>
+</li><li><a href="http://www.alexander-noe.com/video/matroskadll/Inc_matroska.pas">Download unit for Delphi</a>
+</li><li><a href="http://www.alexander-noe.com/video/matroskadll/mtrdllex.zip">Download example to demonstrate usage in Delphi</a></li></ul>
+<br><h3>Table of contents</h3>
+<a href="#general">General</a>
+<h4>1. By meaning</h4>
+<ol><li><a href="#mtrOpen">Opening a file</a>
+</li><li><a href="#mtrClose">Closing a file</a>
+</li><li><a href="#mtrGetSegmentInfo">Retrieving information on a segment</a>
+</li><li><a href="#mtrGetTrackInfo">Retrieving information about a Track</a>
+</li><li><a href="#mtrGetChapterInfo">Retrieving information about a Chapter</a>
+</li><li><a href="#mtrGetAttachment">Retrieving an Attachment</a>
+</li><li><a href="#mtrGetDLLInfo">Retrieving DLL version information</a>
+</li><li><a href="#old">older stuff</a></li></ol>
+<h4>2. By function name</h4>
+<ol><li><a href="#mtrClose">mtrClose</a>
+</li><li><a href="#mtrGetAttachment">mtrGetAttachment</a>
+</li><li><a href="#mtrGetChapterInfo">mtrGetChapterInfo</a>
+</li><li><a href="#mtrGetDLLInfo">mtrGetDLLInfo</a>
+</li><li><a href="#mtrGetSegmentInfo">mtrGetSegmentInfo</a>
+</li><li><a href="#mtrGetTrackInfo">mtrGetTrackInfo</a>
+</li><li><a href="#mtrOpen">mtrOpen</a></li></ol>
+
+<br>
+<br>
+<h3><a name="general"></a>General</h3>
+<h4>Backward compatibility of future versions of this DLL</h4>
+The interface should be stable now, and it should not be required to 
+make changes that require older applications to be recompiled to work 
+with future versions of the DLL. That means, if anyone wants to make 
+include files for other languages, please go on.
+<h4>Calling convention</h4>
+All functions use _stdcall and return<font face="courier new" size="-1"> MTR_OK </font> to signal that a call succeeded. If an invalid parameter is passed, the return value is<font face="courier new" size="-1"> MTR_INVALIDPARAM</font>.
+<h4>Units</h4>
+All sizes of structures and buffers are indicated in bytes. This also applies to buffers receiving unicode strings.
+<h4>cbSize</h4>
+All structures have a member in common: <i>cbSize</i>. This member must be set to the size of the structure, if it does not match, the call fails. 
+<h4>Buffers</h4>
+All structures that contain a pointer to a buffer (<i>pBuffer</i>) receiving data have a member <i>max_buffer_size</i> which must be set to the size of that buffer. These structures also have a member <i>required_buffer_size</i> which will be set to the size the buffer must have to receive all data the function could return. 
+<h4>Character sets</h4>
+Structures having a <i>charset</i> member allow the user to specify if the input and/or output strings use ANSI, UTF-8 or UTF-16 encoding (values<font face="courier new" size="-1&quot;"> MTR_ANSI, MTR_UTF8, MTR_UTF16</font>).
+<h4>Titles</h4>
+All structures designed to receive titles include the following member values:<br>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">number_of_titles</font></font></td><td><font face="Times New Roman">number of titles that could be returned if the buffer was large enough</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">number_of_titles_returned</font></font></td><td><font face="Times New Roman">number of titles for which at least one character has been returned. If this number is smaller than <font face="courier new" size="-1">number_of_titles</font>, the buffer was (far) too small</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">title_txt</font></font></td><td><font face="Times New Roman">Array of pointers to titles. All pointers will point somewhere into pBuffer</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1"><a href="http://www.loc.gov/standards/iso639-2/englangn.html">title_lng</a></font></font></td><td><font face="Times New Roman">Array
+ of pointers to language codes identifying the language the title is 
+written in. If a language is not indicated in the source file, this 
+pointer will either be NULL or point to an empty string.</font></td></tr>
+</tbody></table>
+
+<h3><a name="mtrOpen"></a>Opening a file</h3>
+<pre>typedef struct
+{
+	int	cbSize;
+	int	charset;
+	int	access;
+	char*	filename;	
+} OPEN_MATROSKA_FILE_STRUCT;
+</pre>
+
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">access</font></font></td><td><font face="Times New Roman"><font face="courier new" size="-1">MTROF_READ </font>- open file for reading</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">filename</font></font></td><td><font face="Times New Roman">name of the file to open, using the character set indicated in charset</font></td></tr>
+</tbody></table>
+<h4>Call: </h4>
+<pre>mtrOpen(
+  OPEN_MATROSKA_FILE_STRUCT* 	open_file_struct, 
+  void** 			matroska
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">open_file_struct</font></font></td><td><font face="Times New Roman">Pointer to a valid<font face="courier new" size="-1"> OPEN_MATROSKA_FILE_STRUCT </font>struct</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer
+ to a pointer that will receive a pointer to an internal structure of 
+matroska.dll that you'll need each time you want to access the file.</font></td></tr>
+</tbody></table>
+
+<h3><a name="mtrClose"></a>Closing a file</h3>
+<h4>Call: </h4>
+<pre>mtrClose(
+  void**	matroska
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer to a pointer that was obtained using<font face="courier new" size="-1"> mtrOpen </font>. </font></td></tr>
+</tbody></table>
+
+<h3><a name="mtrGetDLLInfo"></a>Retrieving DLL version information</h3>
+<h4>Call: </h4>
+<pre>int mtrGetDLLInfo(
+  int		info;
+  char*         build_date;
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">info</font></font></td><td><font face="Times New Roman">Value indicating what information is to be retrieved:</font><ul><font face="Times New Roman"><li><font face="courier new" size="-1">MTRDLL_VERNBR </font> return version number as result of the function call</li><li><font face="courier new" size="-1">MTRDLL_BUILDDATE </font> return build date of this DLL as string</li></font></ul><font face="Times New Roman"></font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">build_date</font></font></td><td><font face="Times New Roman">buffer to receive the build date. This buffer is never required to be larger than 128 bytes</font></td></tr>
+</tbody></table>
+
+
+<h3><a name="mtrGetSegmentInfo"></a>Retrieving information about a Segment</h3>
+<pre>typedef struct
+{
+	// input
+	int		cbsize;
+	int		index;
+	int		max_buffer_len;
+	int		charset;
+
+	// output
+	char*		pBuffer;
+	int		required_buffer_len;
+
+	int		flags;
+	char*		segment_uid;
+	char*		segment_filename;
+
+	char*		next_uid;
+	char*		next_filename;
+
+	char*		prev_uid;
+	char*		prev_filename;
+	char*		segment_family;
+
+	char*		muxing_app;
+	char*		writing_app;
+	
+	int		number_of_titles;
+	int		number_of_titles_returned;
+	char**		title_txt;
+	char**		title_lng;
+
+	int		number_of_chapters;
+	int		number_of_tracks;
+	int		number_of_attachments;
+
+	__int64		timecode_scale;
+	__int64		duration;
+	__int64		date;
+} GET_SEGMENT_INFO_STRUCT;
+</pre>
+
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">index</font></font></td><td><font face="Times New Roman">retrieve information on the index-th segment</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">flags</font></font></td><td><font face="Times New Roman">This
+ member indicates which values were present in the source file. If the 
+buffer was too small, some may not have been returned. The following 
+flags are defined: <font face="courier new" size="-1"></font></font><ul><font face="Times New Roman"><font face="courier new" size="-1"><li>GSISF_SEGMENTUID<lu>GSISF_NEXTUID</lu></li><li>GSISF_PREVUID</li><li>GSISF_SEGMENTFAMILY </li><li>GSISF_MUXINGAPP</li><li>GSISF_WRITINGAPP</li><li>GSISF_DATE</li></font></font></ul><font face="Times New Roman"><font face="courier new" size="-1"></font> A flag not being set means the corresponding member is undefined</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">*_uid,&nbsp;*_filename</font></font></td><td><font face="Times New Roman">Pointer to the corresponding UID and filenames as stored in the segment.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">*_app</font></font></td><td><font face="Times New Roman">Pointer to muxing and writing app as stored in the matroska files. Those strings are usually present.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">number_*</font></font></td><td><font face="Times New Roman">Contains the number of chapters (or better: editions), attachments and tracks the segment contains.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">timecode_scale</font></font></td><td><font face="Times New Roman">Contains the value all scaled timecodes must be multiplied with to get nanoseconds.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">duration</font></font></td><td><font face="Times New Roman">Contains the scaled duration of the segment.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">date</font></font></td><td><font face="Times New Roman">Production date, timecode in nanoseconds relative to 2001-01-01, 12am earth standard time.</font></td></tr>
+</tbody></table>
+
+<h4>Call: </h4>
+<pre>mtrGetSegmentInfo(
+  void* 			matroska
+  GET_SEGMENT_INFO_STRUCT* 	segment_info_struct, 
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">segment_info_struct</font></font></td><td><font face="Times New Roman">Pointer to a valid<font face="courier new" size="-1"> GET_SEGMENT_INFO_STRUCT </font>struct</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer retrieved by mtrOpen</font></td></tr>
+</tbody></table>
+
+<h3><a name="mtrGetTrackInfo"></a>Retrieving information about a Track</h3>
+<pre>typedef struct
+{
+	// input
+	int		cbsize;
+	int		index;
+	int		max_buffer_len;
+	int		charset;
+
+	// output
+	char*		pBuffer;
+
+	int		flags;
+	int		required_buffer_size;
+	double		bitrate;
+
+	int		track_number;
+	__int64		track_uid;
+	int		track_type;
+	int		flag_enabled;
+	int		flag_default;
+	int		flag_forced;
+	int		flag_lacing;
+
+	int		min_cache;
+	int		max_cache;
+	__int64		default_duration;
+	double		timecode_scale;
+
+	int		number_of_titles;
+	int		number_of_titles_returned;
+	char**		title_txt;
+	char**		title_lng;
+
+	char*		codec_id;
+	void*		codec_private;
+	int		codec_private_size;
+	char*		codec_name;
+
+	__int64		attachment_link;
+	__int64		track_overlay;
+
+	int		pixel_width;
+	int		pixel_height;
+	int		pixel_crop_left;
+	int		pixel_crop_top;
+	int		pixel_crop_right;
+	int		pixel_crop_bottom;
+
+	int		display_width;
+	int		display_height;
+	int		display_unit;
+
+	int		aspect_ratio_type;
+	__int32		color_space;
+
+	double		sampling_frequency;
+	double		output_sampling_frequency;
+	int		channels;
+
+	int		compression;
+	int		compression_settings_length;
+	char*		compression_settings;
+
+} GET_TRACK_INFO_STRUCT;
+</pre>
+
+
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">index</font></font></td><td><font face="Times New Roman">retrieve information on the index-th track of the segment (1st track -&gt; index = 0)</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">flags</font></font></td><td><font face="Times New Roman">This
+ member indicates which values were present in the source file. If the 
+buffer was too small, some may not have been returned. The following 
+flags are defined: <font face="courier new" size="-1"></font></font><ul><font face="Times New Roman"><font face="courier new" size="-1"><li>GTISF_BITRATE</li></font></font></ul><font face="Times New Roman"><font face="courier new" size="-1"></font> A flag not being set means the corresponding member is undefined</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">bitrate</font></font></td><td><font face="Times New Roman">contains
+ the bitrate of the track if the segment contains a tag stating this 
+bitrate. The DLL will NOT start reading into the segment in order to get
+ an estimation of the track's bitrate. If such a tag is not present, the
+ <font face="courier new" size="-1">GTISF_BITRATE</font> flag is not set and this value is undefined.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">track_uid</font></font></td><td><font face="Times New Roman">UID of the track, usually 32 or 64 bits</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">track_number</font></font></td><td><font face="Times New Roman">Number of the track, usually one-based increasing (note: the index is zero-based)</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">track_type</font></font></td><td><font face="Times New Roman">Can be<font face="courier new" size="-1"></font></font><ul><font face="Times New Roman"><font face="courier new" size="-1"><li>MTR_TRACKTYPE_VIDEO</li><li>MTR_TRACKTYPE_AUDIO</li><li>MTR_TRACKTYPE_SUBTITLES</li></font></font></ul><font face="Times New Roman"><font face="courier new" size="-1"></font></font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">flag_*</font></font></td><td><font face="Times New Roman">Conains
+ the flags as specified in the track header. Those flags are returned as
+ they are, they are not auto-corrected or otherwise changed if they are 
+nonsense (p.e. if 2 video tracks are marked as default)</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">default_duration</font></font></td><td><font face="Times New Roman">Duration of one frame of this track in nanoseconds. For VFR tracks, this value will be 0</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">timecode_scale</font></font></td><td><font face="Times New Roman">Factor
+ by which timecodes of this track are to be multiplied. This value will 
+usually be one, as the code the DLL is based on already performs this 
+multiplication before delivering any data. This member is only there in 
+order to avoid a change of this structure in the case that this 
+behaviour is changed.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1"><a href="http://www.matroska.org/technical/specs/codecid/index.html">codec_id</a></font></font></td><td><font face="Times New Roman">Points to a string describing the codec used for this track.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">codec_private<br>codec_private_size</font></font></td><td><font face="Times New Roman">Pointer to the CodecPrivate data of this track and size of CodecPrivate.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">codec_name</font></font></td><td><font face="Times New Roman">A human readable name of the codec. At the moment, this is rarely used.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">pixel_width<br>pixel_height</font></font></td><td><font face="Times New Roman">the resolution the video track is encoded in.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">pixel_crop_*</font></font></td><td><font face="Times New Roman">number of pixels to be cropped during replay. This is applied after decoding, but before changing aspect ratio</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">display_width<br>display_height<br>display_unit</font></font></td><td><font face="Times New Roman">the size the picture is to be stretched to during replay</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">sampling_frequency<br>output_sampling_frequency</font></font></td><td><font face="Times New Roman">The
+ sampling rate the stream is encoded at, and the sampling rate it is to 
+be replayed at. Those values are identical for most audio codecs, the 
+only acception currently being HE-AAC. Note: In a matroska file, the 
+second value is usually not stored if it does not differ from the first 
+one. This is of no importance for this DLL, both values will always be 
+returned.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">compression</font></font></td><td><font face="Times New Roman">Inidicates
+ what compression algorithm has been used for this track. Note: 
+Theoretically, Matroska allows to use several compression algorithms one
+ after another on the same track. This is not supported by this DLL, 
+neither by the underlying code.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">compression_settings<br>compression_settings_length</font></font></td><td><font face="Times New Roman">Like<font face="courier new" size="-1"> codec_private </font>and<font face="courier new" size="-1"> codec_private_size</font>, but for the lossless compressor used for this track.</font></td></tr>
+</tbody></table>
+
+<h4>Call: </h4>
+<pre>mtrGetTrackInfo(
+  void* 			matroska
+  GET_TRACK_INFO_STRUCT* 	track_info_struct 
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">track_info_struct</font></font></td><td><font face="Times New Roman">Pointer to a valid<font face="courier new" size="-1"> GET_TRACK_INFO_STRUCT </font>struct</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer retrieved by mtrOpen</font></td></tr>
+</tbody></table>
+
+
+<h3><a name="mtrGetChapterInfo"></a>Retrieving information about a Chapter</h3>
+<pre>typedef struct
+{
+	// input
+	int		cbSize;
+
+	int*		pIndex;
+	int		max_buffer_len;
+	int		charset;
+
+	// output
+	char*		pBuffer;
+
+	int		error;
+	int		is_edition;
+	int		is_enabled;
+	int		is_hidden;
+	int		is_ordered;
+	int		is_default;
+	int		has_segmentuid;
+
+	__int64		start_time;
+	__int64		end_time;
+
+	int		number_of_titles;
+	int		number_of_titles_returned;
+	char**		title_txt;
+	char**		title_lng;
+
+	int		number_of_subchapters;
+	int		required_buffer_size;
+	unsigned char*  pSegmentUID;
+} GET_CHAPTER_STRUCT;
+</pre>
+
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">pIndex</font></font></td><td><font face="Times New Roman">Pointer
+ to an array describing the index of the chapter. The first element 
+contains the number of valid values. 
+Example:&nbsp;[3,&nbsp;2,&nbsp;5,&nbsp;1]&nbsp;refers to chapter 2.5.1. 
+If an invalid chapter is indicated, the return value will be<font face="courier new" size="-1"> MTR_OK </font>, but the<font face="courier new" size="-1"> error </font>member will be<font face="courier new" size="-1"> MTRCHI_INVALIDINDEX</font></font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">is_*</font></font></td><td><font face="Times New Roman">Those values are one if the chapter has the property in question, i.e. is hidden, is an edition etc.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">has_segmentuid<br>pSegmentUID</font></font></td><td><font face="Times New Roman">When
+ this value is not zero, pSegmentUID is valid and points to an array of 
+16 bytes containing the UID of the segment this chapter is refering to.</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">start_time<br>end_time</font></font></td><td><font face="Times New Roman">Unscaled time when the chapter starts and ends. If the end time is not indicated in the source file, the<font face="courier new" size="-1"> end_time </font>member is set to -1.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">number_of_subchapters</font></font></td><td><font face="Times New Roman">contains the number of subchapters this chapter has.</font></td></tr>
+</tbody></table>
+
+<h4>Call: </h4>
+<pre>mtrGetChapter(
+  void* 		matroska
+  GET_CHAPTER_STRUCT* 	chapter_struct, 
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">chapter_struct</font></font></td><td><font face="Times New Roman">Pointer to a valid<font face="courier new" size="-1"> GET_CHAPTER_STRUCT </font>struct</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer retrieved by mtrOpen</font></td></tr>
+</tbody></table>
+
+<h3><a name="mtrGetAttachment">Retrieving an Attachment</a></h3>
+<pre>typedef struct
+{
+	// input
+	int		cbsize;
+	int		index;  
+	int		max_buffer_len;
+	int		charset;
+
+	// input/output
+	__int64		uid;
+
+	// output
+	char*		pBuffer;
+
+	char*		filename;
+	char*		description;
+	char*		mime_type;
+	char*		binary_data;
+	int		binary_data_size;
+
+	int		required_buffer_size;
+} GET_ATTACHMENT_STRUCT;
+</pre>
+
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">index</font></font></td><td><font face="Times New Roman">Retrieve the index-th attachment. If this value is -1, retrieve the attachment having the uid<font face="courier new" size="-1"> uid</font></font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">uid</font></font></td><td><font face="Times New Roman">If index is not -1, this member will be set to the uid the index-th attachment has.</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">filename</font></font></td><td><font face="Times New Roman">pointer to filename of this attachment</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">description</font></font></td><td><font face="Times New Roman">Pointer to human readable description of this attachment</font></td></tr>
+<tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">mime_type</font></font></td><td><font face="Times New Roman">Pointer to a string describing the type of this attachment</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">binary_data<br>binary_data_size</font></font></td><td><font face="Times New Roman">Pointer to binary data of the attachment and size of the attachment.</font></td></tr>
+</tbody></table>
+
+<h4>Call: </h4>
+<pre>mtrGetChapter(
+  void* 			matroska
+  GET_ATTACHMENT_STRUCT*	attachment_struct, 
+);
+</pre>
+<table width="100%" align="center" border="0" cellpadding="5" cellspacing="1">
+<tbody><tr bgcolor="#f8f8f8"><td><font face="Times New Roman"><font face="courier new" size="-1">attachment_struct</font></font></td><td><font face="Times New Roman">Pointer to a valid<font face="courier new" size="-1"> GET_CHAPTER_STRUCT </font>struct</font></td></tr>
+<tr bgcolor="#f0f0f0"><td><font face="Times New Roman"><font face="courier new" size="-1">matroska</font></font></td><td><font face="Times New Roman">Pointer retrieved by mtrOpen</font></td></tr>
+</tbody></table>
+<br><br><br>
+<h2><a name="old"></a>Older functions</h2>
+
+
+<table bgcolor="#f8f8f8" border="2" cellpadding="8">
+<tbody><tr bgcolor="#f0f0f0">
+  <td width="40%"><b>Function</b></td>
+  <td><b>Decription</b></td>
+</tr>
+
+<tr>
+  <td><font face="courier">
+     <b>int mtrOpenRead</b>
+      <table width="80%" align="center" border="0" cellpadding="1">
+      <tbody><tr><td><b>char*</b></td><td>pFilename</td></tr>
+      <tr><td><b>MATROSKA_DESCR**</b></td><td>pDescr</td></tr>
+      </tbody></table></font></td>
+  <td>Opens a <i>matroska</i> file for reading and returns a descriptor which you need each time you want to access this file.
+<br>The internal structure of this is not of any importance for you. Declare it as a Pointer, void* or whatever it is called in 
+the language you want to use this library with.<br><br>The function returns<font face="courier"> 
+MTR_OK </font>if it succeeds, and will set<font face="courier"> *pDescr </font>to<font face="courier"> NULL </font>and 
+return<font face="courier"> MTR_OPEN_INVALIDFILE </font>if the indicated source file could not be opened.
+</td>
+</tr>
+
+<tr>
+  <td><font face="courier">
+    <b>int mtrRead</b>(
+      <table width="80%" align="center" border="0" cellpadding="1">
+      <tbody><tr><td><b>MATROSKA_DESCR*</b></td><td>pDescr</td></tr>
+      <tr><td><b>int</b></td><td>iTrack</td></tr>
+      <tr><td><b>READ_STRUCT*</b></td><td>pRead</td></tr>
+      </tbody></table></font>
+  </td><td>
+     Reads one block from the specified track <i>iTrack</i>, or as few as possible, if the next block of that stream
+     is laced and if delacing is not supported for this track, and returns this block(s) along with some information
+     on it in <i>*pRead</i>.
+     <br><br><b>Return values:</b><br>
+     <center><table width="100%" bgcolor="#f0f0f0" border="0" cellpadding="5">
+     <tbody><tr><td><font face="courier">MTR_RD_OK</font></td><td>no error has occured</td></tr>
+     <tr><td><font face="courier">MTR_RD_ENDOFSEGMENT</font></td><td>end of active segment has been reached when trying to fill input queues</td></tr>
+     <tr><td><font face="courier">MTR_RD_SPARSEQUEUEEMPTY</font></td><td>you are trying to read from a <i>sparse</i> stream, but the input queue for that stream is empty.</td></tr>
+     </tbody></table><br></center>
+
+     <br><font face="courier"><b>READ_STRUCT {</b>
+     </font><center><table class="t_courier" width="80%" border="0" cellpadding="1">
+     <tbody><tr><td width="50%"><b>void*</b></td><td>pBuffer</td></tr>
+     <tr><td><b>int</b></td><td>iSize</td></tr>
+     <tr><td><b>REFERENCES</b></td><td>references</td></tr>
+     <tr><td><b>FRAMES</b></td><td>frames</td></tr>
+     <tr><td><b>__int64</b></td><td>iTimecode</td></tr>
+     <tr><td><b>__int64</b></td><td>iDuration</td></tr>
+     </tbody></table></center><font face="courier"><b>}</b><br><br>
+     <font face="courier"><b>REFERENCES {</b>
+     </font></font><center><table class="t_courier" width="80%" border="0" cellpadding="1">
+     <tbody><tr><td width="50%"><b>int</b></td><td>iCount</td></tr>
+     <tr><td><b>int</b></td><td>iRefs[4]</td></tr>
+     </tbody></table></center><font face="courier"><font face="courier"><b>}</b><br><br>
+     <font face="courier"><b>FRAMES {</b>
+     </font></font></font><center><table class="t_courier" width="80%" border="0" cellpadding="1">
+     <tbody><tr><td width="50%"><b>int</b></td><td>iCount</td></tr>
+     <tr><td><b>int</b></td><td>iSize[256]</td></tr>
+     </tbody></table></center><font face="courier"><font face="courier"><font face="courier"><b>}</b><br><br>
+
+  </font></font></font></td>
+</tr>
+<tr>
+  <td><font face="courier">
+    <b>mtrSetReadConfig</b>(
+      <table width="80%" align="center" border="0" cellpadding="2">
+      <tbody><tr><td><b>MATROSKA_DESCR*</b></td><td>pDescr</td></tr>
+      <tr><td><b>int</b></td><td>iState</td></tr>
+      <tr><td><b>int</b></td><td>iIndex</td></tr>
+      <tr><td><b>int</b></td><td>iVal</td></tr>
+      </tbody></table></font>
+  </td><td>Set parameters for reading from a <i>matroska</i> file.<br><br>
+     <center><table class="t_paraml" width="100%" border="0" cellpadding="5">
+     <tbody><tr><th>iState</th><th width="5%"> </th><th>usage</th></tr>
+     <tr class="tr_paraml_e"><td class="td_courier" colspan="2">MTRRCFG_QUEUETRACK</td>
+       <td>
+       <center><table width="100%" border="0" cellpadding="2">
+       <tbody><tr><td><b>iVal = 1</b></td><td>enable queuing for track <i>iIndex</i></td></tr>
+       <tr><td><b>iVal = 0</b></td><td>disable queuing for track <i>iIndex</i></td></tr>
+       <tr><td><b>iIndex = -1</b></td><td>refer to all tracks </td></tr>
+       <tr><td colspan="2"><i>Note: You cannot read data from any track 
+which is not queued, and you will waste a lot of RAM if you queue tracks
+ you don't read from</i></td></tr>
+       </tbody></table>
+       </center></td>
+     </tr><tr class="tr_paraml_o"><td class="td_courier" colspan="2">MTRRCFG_ACTIVESEGMENT</td>
+     <td>activate the <i>iIndex</i> - th segment of a <i>matroska</i> file</td>
+     </tr>
+     <tr class="tr_paraml_e"><td class="td_courier" colspan="2">MTRRCFG_SPARSE</td>
+       <td>
+       <center><table width="100%" border="0" cellpadding="3">
+       <tbody><tr><td><b>iVal&nbsp;=&nbsp;1</b></td><td>set sparse read mode for track <i>iIndex</i></td></tr>
+       <tr><td><b>iVal = 0</b></td><td>set normal read mode for track <i>iIndex</i></td></tr>
+       </tbody></table>
+       </center></td>
+     
+
+     </tr></tbody></table>
+  
+  </center></td>
+  </tr>
+
+
+</tbody></table>
+
+<pre>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</body></html>

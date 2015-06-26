@@ -1,0 +1,73 @@
+<html>
+<head>
+<title>Source Index</title>
+
+<script>
+	function IsTodayBefore(  Year,  Month,  Day  )
+	{
+		dDate = new Date( );
+   	Year = Year - 1900;
+
+		if(  dDate.getYear( ) > Year  )
+			return false;
+
+   	if(   dDate.getMonth( ) > Month  )
+			return false;
+		else
+      	if(  dDate.getDate( ) > Day  )
+         	return false;
+
+		return true;
+	}
+</script>
+
+</head>
+<body background="../Graphics/bg0165.jpg">
+<h2><u>DocFile Source code<br></u></h2>
+<p><br>
+
+<table border=1>
+   <tr>
+      <td><b>Example No.</b></td>
+      <td><b>Title</b></td>
+      <td><b>ZIP</b></td>
+      <td><b>Size</b></td>
+   </tr>
+   <tr>
+      <td>Eg 1</td>
+      <td>Loading and saving data to/from a stream</td>
+      <td><a href="http://users.iafrica.com/d/da/dart/zen/Articles/DocFile/ZIPSource/df_Strm_RW.zip">df_Strm_RW.zip</a>
+		<td>2kb</td>
+   </tr>
+   <tr>
+      <td>Eg 2</td>
+      <td>Sub-Storages</td>
+      <td><a href="http://users.iafrica.com/d/da/dart/zen/Articles/DocFile/ZIPSource/df_Storages.zip">df_Storages.zip</a>
+		<td>2kb</td>
+   </tr>
+   <tr>
+      <td>Eg 3</td>
+      <td>Item enumeration - Basic DocFile Viewer</td>
+      <td><a href="http://users.iafrica.com/d/da/dart/zen/Articles/DocFile/ZIPSource/df_Enum.zip">df_Enum.zip</a>
+		<td>3kb</td>
+   </tr>
+   <tr>
+      <td>Eg 4</td>
+      <td>Saving a TreeView to disk</td>
+      <td><a href="http://users.iafrica.com/d/da/dart/zen/Articles/DocFile/ZIPSource/df_TreeViewDocFile.zip">df_TreeViewDocFile.zip</a>
+		<td>7kb</td>
+   </tr>
+</table>
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All source code available here copyright (&copy;) 1997  <a href="mailto:dart@iafrica.com">Andre .v.d. Merwe</a>
+And may not be distributed without my permission. Further, by downloading this source
+you are accepting full responsibility for anything &amp; everything it does. I take
+no responsability at all...
+</font><p>
+
+
+</body>
+</html>

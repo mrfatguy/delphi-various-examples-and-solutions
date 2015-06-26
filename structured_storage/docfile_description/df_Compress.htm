@@ -1,0 +1,181 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Compressing a DocFile</u></h2>
+<p>
+
+DocFiles are optimized for speed, this is great for obvious reasons but this optimization can also cause a few
+minor problems. In the same way data on hard drive gets fragmented, so too does data in a DocFile. On a hard drive 
+this is not a major problem since files can be split into many locations, they do not need contiguous space. The same
+is true for a DocFile, the data in a stream can be all over the place and is not necessarily contiguous. 
+The problem is that a lot of space can be wasted this way.
+<p>
+
+Consider a DocFile with 3 streams, streams <b>&quot;a&quot;</b>,  <b>&quot;b&quot;</b> and <b>&quot;c&quot;</b>.
+Each of the 3 streams contain 5mb of data. Now assume that you delete stream <b>&quot;b&quot;</b>. The size
+of the DocFile does not drop from 15mb (3x 5mb) to 10mb (2x 5mb). Instead the file stays 15mb in size. 5mb is thus
+being wasted!
+<p>
+
+When a stream / storage is deleted, the data is contains is not physically removed. The deleted space is marked as
+unused but not removed. If you now add 2mb of data to the file it will not get any bigger. The 2mb of data will be
+stored in the space previously allocated for stream <b>&quot;b&quot;</b>.
+<p>
+
+Fortunately there is an easy way to compress (defrag) a DocFile. Using <b>IStorage.CopyTo</b> you can create a simple
+function to compress any DocFile.  Here is the algorithm that I use<br>
+
+<ol>
+   <li>Open the file to compress</li>
+   <li>Get the files CLSID</li>
+   <li>Open a new tempory file</li>
+   <li>Copy everything to the tempory file (<b>IStorage.CopyTo</b>)</li>
+   <li>Close the original file (opened in step 1)</li>
+   <li>Create a new DocFile with the same name as the original one (replace it)</li>
+	<li>Set the new file's CLSID so that it is the same as the origional file</li>
+   <li>Copy everything from the tempory file to the file created in the step above.</li>
+   <li>Close both files</li>
+   <li>Delete the tempory file</li>
+</ol>
+<p>
+
+You might want to replace Steps 5 - 9 with<br>
+
+<ol>
+   <li>Close both files</li>
+   <li>Copy the tempory file over the original file (CopyFile)</li>
+</ol>
+<p>
+
+However I found that this does not work. The original algorithm does reliably compress any DocFile so use it
+instead.
+<p><br>
+
+Here is the CompressDocFile function as well as GetTempDirFile which returns the name of a tempory file
+in the tempory directory. GetStorageCLSID is defined in the section titled
+&quot;<a href="df_CLSIDs.htm">CLSIDs</a>&quot;
+<p><br><p>
+
+
+<pre><font color="#0000FF">
+   function GetTempDirFile(   sPre : string  ) : string;
+   var
+      szFileName,  szPath : array[ 0 .. 500 ] of char;
+   begin
+         <font color="#FFFFFF">{Get temp path}</font>
+      GetTempPath(  499,  szPath  );
+         <font color="#FFFFFF">{Get a tempory file name}</font>
+      GetTempFileName(   szPath,  PChar(sPre),  0,  szFileName  );
+      GetTempDirFile := string(szFileName);
+   end;
+
+
+
+   function TForm1.CompressDocFile(  sStorageFileName : WideString  ) : boolean;
+   var
+      Hr : HResult;
+      CLSID : TCLSID;
+      StatStg : TStatStg;
+      sTmpFileName : WideString;
+      Storage,  StorageTmp : IStorage;
+   begin   
+         <font color="#FFFFFF">{Try to open the file}</font>
+      Hr := StgOpenStorage(  PWideChar(sStorageFileName),
+                             nil,
+                             STGM_READWRITE or STGM_SHARE_EXCLUSIVE or
+                             STGM_DIRECT,
+                             nil,
+                             0,
+                             Storage
+                           );
+   
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         Result := false;
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Get the CLSID}</font>
+      Storage.Stat(  StatStg,  0  );
+      CLSID := StatStg.clsid;
+
+         <font color="#FFFFFF">{Get a tmp file name in the tempory directory}</font>
+      sTmpFileName := GetTempDirFile(  'ole_'  );
+
+         <font color="#FFFFFF">{Create the tempory file}</font>
+      Hr := StgCreateDocFile(  PWideChar(sTmpFileName),
+                               STGM_CREATE or STGM_SHARE_EXCLUSIVE or
+                               STGM_DIRECT or STGM_READWRITE,
+                               0,
+                               StorageTmp
+                             );
+
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         Result := false;
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Copy everything to tmp file}</font>
+      Storage.CopyTo(  0,  nil,  nil,  StorageTmp  );
+
+         <font color="#FFFFFF">{Close old file}</font>
+      Storage := nil;
+
+         <font color="#FFFFFF">{Create file, del old one in the process}</font>
+      Hr := StgCreateDocFile(  PWideChar(sStorageFileName),
+                               STGM_CREATE or STGM_SHARE_EXCLUSIVE or
+                               STGM_DIRECT or STGM_READWRITE,
+                               0,
+                               Storage
+                             );
+
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         DeleteFile(  sTmpFileName  );
+         Result := false;
+         Exit;
+      end;
+
+        <font color="#FFFFFF">{Set the CLSID}</font>
+      Storage.SetClass(  CLSID  );
+
+        <font color="#FFFFFF">{Copy everything back from tmp file}</font>
+      StorageTmp.CopyTo(  0,  nil,  nil,  Storage  );
+
+      Storage := nil;
+      StorageTmp := nil;
+
+         <font color="#FFFFFF">{Delete tmp file}</font>
+      DeleteFile(  sTmpFileName  );
+
+      Result := true;
+   end;
+</pre></font>
+
+
+
+<font color="#FFFFFF">
+<pre><font color="#0000FF">
+</pre></font>
+<p>
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Enum.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a><a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a><a href="df_TreeViewDocFile.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

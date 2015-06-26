@@ -1,0 +1,266 @@
+<html>
+<head>
+<title></title>
+
+<script>
+	function IsTodayBefore(  Year,  Month,  Day  )
+	{
+		dDate = new Date( );
+   	Year = Year - 1900;
+
+		if(  dDate.getYear( ) > Year  )
+			return false;
+
+   	if(   dDate.getMonth( ) > Month  )
+			return false;
+		else
+      	if(  dDate.getDate( ) > Day  )
+         	return false;
+
+		return true;
+	}
+</script>
+
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Creating a stream and writing data to it</u></h2>
+<p>
+
+Now that we know how to open and create a DocFile, lets create
+a stream and save some data to it. <br>
+<p>
+
+<u>Step 1:  Creating a Stream</u>
+<p>
+
+<pre><font color="#0000FF">
+      <font color="#FFFFFF">{Try to create the stream}</font>
+   Hr := RootStorage.CreateStream(  'MyStream',
+                                    STGM_CREATE or STGM_READWRITE or
+                                    STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                                    0,
+                                    0,
+                                    Stream
+                                  );
+
+</font></pre>
+<p>
+
+As you can see CreateStream is a member function of  IStorage.
+The STGM flags are the same as used with StgCreateDocFile.  Dont forget to check
+the Hr result for success.
+<p>
+If successful this will create a stream called <b>MyStream</b> in the RootStorage.  
+
+
+<p>
+<hr>
+<p>
+
+<u>Step 2:  Write some data</u>
+<p>
+
+Well lets first get some data to write!  From this point on I'll be
+building a sample application that will demonstrate some of the more important
+DocFile concepts.
+<p>
+So create a new Delphi project in which you can test these examples.
+
+<p>
+For this first example drop a TMemo and a TButton on the form.
+<p>
+<img src="Graphics/Form_StreamSave.gif" width=392 height=207 alt=" ">
+<br>
+<table cellspacing=3 cellpadding=3 border=1>
+	<tr>
+		<td><b>Control</b></td>
+		<td><b>Caption</b></td>
+		<td><b>Name</b></td>
+	</tr>
+	<tr>
+		<td>TMemo</td>
+		<td>&nbsp;</td>
+		<td>mem_Text</td>
+	</tr>
+	<tr>
+		<td>TButton</td>
+		<td>Save</td>
+		<td>but_Save</td>
+	</tr>
+</table>
+<br><p>
+
+What this simple application will do is save the text from the
+memo into a stream in the DocFile. Later on we'll read the data back from
+the stream.
+<p>
+
+Double click the button to start entering the OnClick code used to
+save the memo's text
+<p>
+
+There are as always a number of ways to accomplish anything in
+programming, I'll show you two methods here. There are probably quite
+a few more.  Chose the method that best suits your needs.
+<p>
+
+<u>Method 1:</u>
+<p>
+
+Saving a string<br>
+<p>
+<pre><font color="#0000FF">
+   Stream.Write(  PChar(mem_Text.Text),
+                  Length(  mem_Text.Text  ),
+                  @iNumWritten
+                );
+
+
+      <font color="#FFFFFF">{Was all the data written?}</font>
+   if(  iNumWritten <> MemStream.Size  ) then
+   begin
+      MessageBeep(  -1  );
+      ShowMessage(  'Not all of data was saved'  );
+   end;
+
+</font></pre>
+<p>
+
+Here the text in the memo's  Lines.Text property is used to get
+the text as a string. 
+<p><br>
+
+
+<u>Method 2:</u>  Using a TOleStream
+<br>
+<p>
+
+This section origionally showed how to use a memory stream as a tempory stream before saving the data to
+the actual IStream. This method worked and was quite flexible...  however there is a better way. There always
+is!  In this case the better method is to use a TOleStream.<br>
+My thanks to <b>Thaddy de Koning</b> (<a href="mailto:thaddy@cyco.nl">thaddy@cyco.nl</a>) for bringing this class
+to my attention.
+<p>
+
+TOleStream is defined in AxCtrls.pas. What it does is wrap a IStream and allow you to use the IStream just as you
+would any normal stream class (eg TStream, TMemoryStream, TFileStream etc..).  This makes loading and saving data
+so much easier.
+<p>
+
+To use TOleStream you pass an open IStream as the only parameter to its constructor.<br>
+For example saving the text from a TMemo to a open IStream.
+<p>
+
+<pre><font color="#0000FF">
+      <font color="#FFFFFF">{Create a memory OleStream}</font>
+   OleStream := TOleStream.Create(  Stream  );
+
+      <font color="#FFFFFF">{Save the memo's text to the OleStream}</font>
+   mem_Text.Lines.SaveToStream(  OleStream  );
+
+      <font color="#FFFFFF">{Finished with the OleStream}</font>
+   OleStream.Free;
+
+</font></pre>
+<p>
+
+I have noticed that TOleStream.Size does not work correctly for a TOleStream. 
+It correctly returns the size of the stream, but changing the value has no effect at all!  Use the normal API
+functions if you need to manualy resize an IStream.
+<p>
+
+
+The full source code (using method 2) follows,  this is the procedure
+you would call from the button's OnClick Event
+
+<p>
+<pre><font color="#0000FF">
+   procedure CreateAndSave;
+   var
+      Hr : HResult;
+      Stream : IStream;
+      OleStream : TOleStream;
+      RootStorage : IStorage;
+   begin
+         <font color="#FFFFFF">{Try create the DocFile}</font>
+      Hr := StgCreateDocFile(  'c:\Temp\MyDocFile.ole',
+                               STGM_CREATE or STGM_READWRITE or
+                               STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                               0,
+                               RootStorage
+                             );
+
+
+         <font color="#FFFFFF">{Was is created?}</font>
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         <font color="#FFFFFF">(*  Fail  *)</font>
+         <font color="#FFFFFF">{D2}//RootStorage.Release;</font>
+
+         Exit;
+      end;
+
+
+         <font color="#FFFFFF">{Try to create the stream}</font>
+      Hr := RootStorage.CreateStream(  'MyStream',
+                                       STGM_CREATE or STGM_READWRITE or
+                                       STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                                       0,
+                                       0,
+                                       Stream
+                                     );
+
+         <font color="#FFFFFF">{Was is created?}</font>
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         <font color="#FFFFFF">(*  Fail  *)</font>
+         <font color="#FFFFFF">{D2}//RootStorage.Release;</font>
+
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Create the OleStream}</font>
+      OleStream := TOleStream.Create(  Stream  );
+
+
+         <font color="#FFFFFF">{Save the memo's text to the OleStream}</font>
+      mem_Text.Lines.SaveToStream(  OleStream  );
+         <font color="#FFFFFF">{Finished with the OleStream}</font>
+      OleStream.Free;
+
+      <font color="#FFFFFF">{D2}//Stream.Release;</font>
+      <font color="#FFFFFF">{D2}//RootStorage.Release;</font>
+   end;
+
+</font></pre>
+<p>
+
+
+I've included the .Release calls (comment out though) for the
+Delphi 2 users.  If you're using Delphi 3 just ignore these lines.
+<p>
+
+From now on I'll be leaving out the Delphi 2 Release calls.
+If you are using Delphi 2 you <b><font size="+3">must</font></b>
+remember to call Release when you are finished with a IStorage
+or IStream.
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Opening.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_ReleaseNotes.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+
+</body>
+</html>

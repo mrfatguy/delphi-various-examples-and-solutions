@@ -1,0 +1,19 @@
+ChiefLZ LZ77 Compression:
+-------------------------
+This package contains Borland Pascal
+and Delphi sources, for LZSS (LZ77)
+file compression and decompression.
+This works with single files, and
+archives. The sources compile for
+Dos, Dos DPMI, Win16, and Win32.
+The package supports Turbo/Borland
+Pascal 7.x for DOS, Windows, 
+and DPMI, Delphi 1, Delphi 2,
+Delphi 3, and Virtual Pascal 2.0
+(Win32).
+
+This package is FREEWARE.
+
+----
+Dr Abimbola Olowofoyeku
+http://ourworld/compuserve.com/homepages/African_Chief/

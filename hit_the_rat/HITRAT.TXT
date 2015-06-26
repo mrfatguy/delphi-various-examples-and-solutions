@@ -1,0 +1,26 @@
+    这是一个简单但挺有趣的小游戏,这个游戏的点子来自
+http://www.advantage.co.nz/ur的一个VB的游戏教程，你的
+任务就是用手中的鼠标去击打洞中的老鼠，一分钟中之内
+打得越多越好。
+    该游戏用Delphi编写，源码可从我的主页下载。
+    希望您能喜欢!有任何意见请告诉我。
+
+    Xue Huai Qing           
+    xhq@writeme.com
+    http://friendsoft.yeah.net	
+	    
+----------------------------------------------------
+
+    It is a small but funny game.The idea comes from
+a VB game tutorial at http://www.advantage.co.nz/ur/
+The object of this game is to use the mouse to hit 
+the rats, the more rats that were hited,the better 
+you played. 
+    It was programmed in Delphi and the source code 
+can be downloaded from my homepage.
+    Enjoy It! Please email to me about you comment.
+
+    Xue Huai Qing           
+    xhq@writeme.com
+    http://friendsoft.yeah.net	
+

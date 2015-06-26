@@ -1,0 +1,272 @@
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-2">
+<meta http-equiv="Content-Language" content="pl">
+<meta name="description" content="Strumienie. Co to takiego? Z czym to się je?">
+<meta name="GENERATOR" content="Microsoft FrontPage 4.0">
+<meta name="keywords" content="programowanie, Delphi, stream, strumienie">
+<meta name="ProgId" content="FrontPage.Editor.Document">
+<title>Service for programmers</title>
+<link rel="stylesheet" type="text/css" href="../../style.css">
+</head>
+
+<body background="../../obrazki/tlo.jpg">
+
+<div align="center">
+  <table border="0" width="73%" height="1" cellspacing="0" cellpadding="0" bordercolor="#0000FF">
+    <tr>
+      <td width="100%" height="63" valign="middle" align="center">
+        <p align="left"><img border="0" src="../../obrazki/sfp.gif" width="400" height="80" align="left"><font size="6">Strumienie</font>
+      </td>
+    </tr>
+    <tr>
+      <td width="100%" height="20" valign="top" align="center">
+      <p align="center"><a href="javascript: history.back()"><img border="0" src="../../obrazki/back.gif" width="14" height="14">
+      </a>
+      <a href="../../index.html">Strona główna</a>  <a href="javascript: history.forward()"> <img border="0" src="../../obrazki/foward.gif" width="14" height="14">
+      </a>
+      </td>
+    <center>
+    </tr>
+    <tr>
+      <td width="98%" height="1" valign="top">
+        <p align="center">&nbsp;<font size="1">[ <a href="../kursy.html">Kursy</a> ] [
+        <a href="../pogramy.html">Programy</a>
+          ] [ <a href="../kody.html">Źródła</a> ] [ <a href="../cgi.html">CGI</a>
+          ] [ <a href="../java.html">Java</a> ] [<a href="../delphin.html">Delphi</a>
+          ] [ <a href="faq.html">Delphi FAQ 1</a> ] [ <a href="faq2.html">Delphi
+          FAQ 2</a> ]<br>
+        &nbsp;[ <a href="api.html">WinAPI FAQ</a> ] [ <a href="slownik.html">Słowniczek</a>
+          ] [ <a href="../texty.html">Texty</a> ] [ <a href="../przyjaciele.html">Przyjaciele</a>
+          ]&nbsp;<br>
+          [ <a href="../info.html">Info</a> ] [ <a href="../linki.html">Linki</a>
+          ] [ <a href="../algo.html">Algorytmy</a> ] [ <a href="../czat.htm">cz@t</a>
+          ]&nbsp;&nbsp;</font>
+      </td>
+  </center>
+    </tr>
+    <center>
+      <tr>
+      <td width="98%" height="748" valign="top">
+      &nbsp;
+      <p align="center"><b>Strumienie</b></p>
+  </center>
+      <blockquote>
+        <p align="left">Co to są te strumienie? Jak by to najprościej wyjaśnić?
+        Otóż strumienie to ciąg danych, który może być zapisywany np. w
+        pliku. Wyobraź sobie taką książkę adresową. Masz na formie listę
+        adresów oraz imion zgrupowanych np. na komponencie typu ListView.
+        Chcesz te adresy teraz zapisać tak jak to ma miejsce np. w Windowsowej
+        książce adresowej. Na końcu tego artykułu będzie rozwiązanie tego
+        problemu - zapisywanie wszystkiego do jednego pliku i odczytanie. A
+        wszystko za pomocą strumieni.&nbsp;</p>
+        <p align="left">Podstawową klasą dla strumieni jest klasa TStream. To
+        od niej wywodzą się pozostałe obiekty będące samodzielnym typem.
+        Oto one:</p>
+        <ul>
+          <li>
+            <p align="left">TFileStream - służy do operacji na plikach;</li>
+          <li>
+            <p align="left">TMemoryStream - do operacji danych w pamięci
+            komputera;</li>
+          <li>
+            <p align="left">TResourceStream - operuje na zasobach plików;</li>
+          <li>
+            <p align="left">TStringStream - służy do operacji na zmiennych
+            tekstowych ( String ).</li>
+        </ul>
+        <p align="left">W tej chwili pewnie nie wiesz jak to wszystko zastosować
+        itp. Ale nie martw się - zaraz wszystko stanie się jasne gdyż
+        wykorzystanie strumieni nie jest niczym nadzwyczajnym.&nbsp;</p>
+        <p align="left">Np. wykorzystanie typu TResourceStream. Oto przykład
+        wyciągnięcia z naszego programu EXE bitmapy o nazwie 'MOJA', a następnie
+        zapisanie tej bitmapy na dysku:</p>
+        <pre><b>var</b>
+  S : TResourceStream;
+<b>begin</b>
+  S := TResourceStream.Create(hInstance, 'MOJA', RT_BITMAP);
+  S.SaveToFile('C:\main.bmp');
+  S.Free;</pre>
+        <p align="left">Sam przyznasz, że to nie jest nic trudnego, prawda?
+        Najpierw deklarowana jest zmienna typu &quot;TResourceStream&quot;, a
+        następnie jest ona tworzona. W konstruktorze zmiennej pierwszym
+        parametrem jest uchwyt pliku, drugim nazwa zasobu, a ostatni parametr to
+        typ zasobu. Typy zasobów możesz poznać w systemie pomocy Delphi pod
+        zakładką &quot;TResourceStream&quot;.&nbsp;</p>
+        <p align="left">No i następnie wyciągnięty zasób zostaje zapisany na
+        dysku.&nbsp;</p>
+        <p align="left">Tak jak opisałem wyżej strumienie mogą także operować
+        na plikach. Trzeba jednak podać wówczas tryb otwarcia pliku - np:</p>
+        <pre><b>var</b>
+  S : TFileStream;
+<b>begin</b>
+  S := TFileStream.Create('C:\plik.txt', fmOpenWrite);</pre>
+        <p>Pierwszym parametrem tego konstruktora jest nazwa pliku, którego będzie
+        dotyczyć operacja, a drugim parametrem jest właśnie tryb otwarcia.
+        Ten parametr może mieć następującą wartość:</p>
+        <table border="1" width="90%" bordercolor="#B01010" cellspacing="0" cellpadding="0" height="103">
+          <tr>
+            <td width="38%" bgcolor="#B01010" align="center" height="5"><font color="#FFFFFF"><b>Parametr</b></font></td>
+            <td width="62%" bgcolor="#B01010" align="center" height="5"><font color="#FFFFFF"><b>Opis</b></font></td>
+          </tr>
+          <tr>
+            <td width="38%" align="center" height="16">fmCreate</td>
+            <td width="62%" align="center" height="16">Tworzy nowy plik jeżeli
+              nie istnieje na dysku;</td>
+          </tr>
+          <tr>
+            <td width="38%" align="center" height="20">fmOpenRead</td>
+            <td width="62%" align="center" height="20">Otwiera plik jedynie do
+              odczytu;</td>
+          </tr>
+          <tr>
+            <td width="38%" align="center" height="15">fmOpenWrite</td>
+            <td width="62%" align="center" height="15">Otwiera plik do zapisu;</td>
+          </tr>
+          <tr>
+            <td width="38%" align="center" height="18">fmOpenReadWrite</td>
+            <td width="62%" align="center" height="18">Otwiera do zapisu lub do
+              odczytu;</td>
+          </tr>
+        </table>
+        <p align="left">Świetnie - jeżeli masz już plik otwarty możesz
+        przystąpić do operacji na tym właśnie pliku.&nbsp;</p>
+        <p align="left">Podstawowymi funkcjami są polecenia zapisu i odczytu.
+        Robią to funkcje zapisu i odczytu:</p>
+        <ul>
+          <li>
+            <p align="left">Write, WriteBuffer - zapisuje dane do pliku;</li>
+          <li>
+            <p align="left">Read, ReadBuffer - odczyt;</li>
+        </ul>
+        <p align="left">Różnica pomiędzy dwoma poleceniami wykonywującymi tę
+        samą czynność jest taka, że polecenia Read i Write to funkcje i
+        zwracają liczbę danych wpisanych do pliku. Przykładowy zapis rekordu
+        do pliku mógłby wyglądać tak:&nbsp;</p>
+        <pre><b>var</b>
+  S : TFileStream;
+  Rec : <b>record</b>
+    Name : <b>String</b>;
+    ID : Byte;
+  <b>end</b>;
+<b>begin</b>
+  Rec.Name := 'Adam';
+  Rec.ID := 2;
+  S := TFileStream.Create('C:\plik.txt', fmCreate);
+  S.WriteBuffer(Rec, SizeOf(Rec));
+  S.Free;</pre>
+        <p align="left">To spowoduje zapis danych do pliku. Możesz teraz np.
+        dopisać do istniejących danych kolejny rekord - służy do tego
+        polecenie Seek:</p>
+        <pre>  S := TFileStream.Create('C:\plik.txt', fmOpenWrite);
+  S.Seek(SizeOf(Rec), soFromEnd);</pre>
+        <p align="left">W tym wypadku polecenie Seek przesunie miejsce zapisu
+        danych na sam koniec. Pierwszym parametrem jest wielkość danych - określone
+        jest to poprzez SizeOf. Kolejny parametr to miejsce w którym ma się
+        rozpocząć operacja zapisu. W tym wypadku będzie to na samym końcu pliku.
+        Możesz w tym miejscu podać dowolną wartość lub:&nbsp;</p>
+        <ul>
+          <li>
+            <p align="left">soFromBeginning - na samym początku;</li>
+          <li>
+            <p align="left">soFromCurrent - aktulne miejsce;</li>
+          <li>
+            <p align="left">soFromEnd - sam koniec;</li>
+        </ul>
+        <p align="left">&nbsp;</p>
+        <p align="left">Do określenia ilości rekordów znajdujących się w
+        pliku możesz zastosować coś takiego:</p>
+        <pre>  Rozmiar := S.Size <b>div</b> SizeOf(Rec);</pre>
+        <p align="left">Zmienna Rozmiar będzie zawierać ilość rekordów.
+        Zasada jest prosta: właściwość Size określa ilość bajtów
+        zapisanych w pliku - dzieląc to przez rozmiar ( w bajtach ) rekordu
+        otrzymamy ilość rekordów znajdujących się w pliku.</p>
+        <p align="left">Istnieje jeszcze polecenie Position, która określa
+        aktualną pozycje w pliku.&nbsp;</p>
+        <p align="left">To właściwie wszystko co najważniejsze.&nbsp;</p>
+        <p align="left">Strumienie umożliwiają także zapisywanie do pliku
+        ustawień komponentów - np. położenia komponentu na formie itp. Do
+        tego służą polecenia: WriteComponent oraz ReadCompoennt.</p>
+        <p align="left">Proszę bardzo - zapisanie komponentu o nazwie &quot;btnMove&quot;
+        do pliku:</p>
+        <pre><b>var</b>
+  FileStream : TFileStream;
+<b>begin</b>
+  <b>if</b> FileExists('setup.txt') <b>then</b> <i><font color="#000080">// jezeli istnieje plik</font></i>
+    FileStream := TFileStream.Create('setup.txt', fmOpenWrite) <b>else</b>
+  FileStream := TFileStream.Create('setup.txt', fmCreate); <i><font color="#000080">//w przeciwnym wypadku stworz plik</font></i>
+
+  FileStream.WriteComponent(btnMove); <i><font color="#000080">// zapisz ustawienia komponentu TButton</font></i>
+  FileStream.Free; <font color="#000080"><i>// zwolnij zmienna</i></font></pre>
+        <p align="left">W tym wypadku jeżeli plik nie istnieje to zostanie
+        stworzony, a jeżeli istnieje - zostanie jedynie otwarty do
+        zapisu.&nbsp;</p>
+        <p align="left">Teraz odczyt wygląda bardzo podobnie:&nbsp;</p>
+        <pre><b>procedure</b> TMainForm.FormCreate(Sender: TObject);
+<b>var</b>
+  FileStream : TFileStream;
+<b>begin</b>
+  <b>if</b> <b>not</b> FileExists('setup.txt') <b>then</b> Exit; <i><font color="#000080">//jezeli plik nie istnieje - nie rob nic</font></i>
+  
+  FileStream := TFileStream.Create('setup.txt', fmOpenRead); <i><font color="#000080">//otworz tylko do odczytu</font></i>
+  FileStream.ReadComponent(btnMove);  <i><font color="#000080">// odczytaj ustawienia komponentu</font></i>
+  FileStream.Free;
+<b>end</b>;</pre>
+        <p align="left">Istnieje jeszcze jedna przydatna funkcja - CopyFrom.
+        Przedstawia się ona następująco:</p>
+        <pre><b>function</b> CopyFrom ( Source: TStream; Count: Longint ) : Longint; </pre>
+        <p align="left">Służy ona do przypisania jednemu strumieniowi wartości
+        drugiego strumienia.&nbsp;</p>
+        <p align="left">Polecam ściągnięcie źródła programu
+        &quot;Kartoteka&quot;, który wykorzystując strumienie zapisuje do
+        pliku nazwę oraz e-mail. Jest to taka książka adresowa.&nbsp;</p>
+        <p align="left">Przydatne linki:</p>
+        <ul>
+          <li>
+            <p align="left">Klasy - opis klas - jak się je tworzy?</li>
+        </ul>
+        <p align="left">Źródła:</p>
+        <ul>
+          <li>
+            <p align="left"><img border="0" src="../../obrazki/zipicon.gif" align="center" width="19" height="19"><a href="../../dane.zip">Dane.zip</a>
+            ( 174 kB ) - książka adresowa;</li>
+          <li>
+            <p align="left"><img border="0" src="../../obrazki/zipicon.gif" align="center" width="19" height="19"><a href="http://www.sfp.hg.pl/stream.zip">Stream.zip</a>
+            ( 2 kB ) - przykład wykorzystania strumieni;&nbsp;</li>
+        </ul>
+        <p align="left"><a href="mailto:boduch@poland.com">Adam Boduch</a></p>
+    <center>
+        <p>&nbsp;</p>
+        </blockquote>
+      </center>
+      </td>
+      </tr>
+      <tr>
+      <td width="98%" height="61" valign="top">
+        <p align="center">&nbsp;<font size="1">[ <a href="../kursy.html">Kursy</a> ] [
+        <a href="../pogramy.html">Programy</a>
+          ] [ <a href="../kody.html">Źródła</a> ] [ <a href="../cgi.html">CGI</a>
+          ] [ <a href="../java.html">Java</a> ] [<a href="../delphin.html">Delphi</a>
+          ] [ <a href="faq.html">Delphi FAQ 1</a> ] [ <a href="faq2.html">Delphi
+          FAQ 2</a> ]<br>
+        &nbsp;[ <a href="api.html">WinAPI FAQ</a> ] [ <a href="slownik.html">Słowniczek</a>
+          ] [ <a href="../texty.html">Texty</a> ] [ <a href="../przyjaciele.html">Przyjaciele</a>
+          ]&nbsp;<br>
+          [ <a href="../info.html">Info</a> ] [ <a href="../linki.html">Linki</a>
+          ] [ <a href="../algo.html">Algorytmy</a> ] [ <a href="../czat.htm">cz@t</a>
+          ]&nbsp;&nbsp;</font>
+      </td>
+      </tr>
+    <tr>
+      <td width="98%" height="15" valign="top">
+        <p align="center"><font size="1">Copyright (c) 2000/2001 by <a href="mailto:boduch@poland.com"> Service for
+        programmers</a></font>
+      </td>
+    </tr>
+    </table>
+</div>
+
+</body>
+
+</html>

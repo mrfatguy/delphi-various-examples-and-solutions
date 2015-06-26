@@ -1,0 +1,112 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Introduction</u></h2>
+<p>
+
+A while ago I needed to design a file format for my application.
+So after giving it a bit of thought I created what at the time
+seemed like the perfect file format for my app...  All was
+going well until I needed to sore additional information in the
+file. Oops, this I had not planned for. So I had to sit down 
+and again design a new format, this time allowing for additional
+data at a later stage.  This file format works and is flexible but it is
+still not flexible enough.
+<p>
+
+I am sure something similar has happened to you.  Some time or
+another you must have found a file format a bit limiting.  Would
+it not be nice if there was a powerful  and flexible way of saving
+data.  Why not go for  powerful, flexible and easy  (ok, ok.. relatively easy ;-)?
+<p>
+
+Well, there is.  Structured Storage.  <br>
+A Structured Storage file is also called a DocFile or an OLE compound
+file. I'll use these terms interchangeably throughout this article.
+<p>
+<hr>
+<p>
+
+DocFiles have many features that make them a valuable tool.
+For example
+<ul>
+	<li>Load &amp; Save only portions of the file. Ie No need to load
+       the whole thing to get hold of some block of data. ie  Incremental
+       access. 
+	</li>
+	<li>DocFiles are supported internally by Windows,  there are ways
+		 to store info about the DocFile, within the DocFile itself.  To
+       see this in action, view the properties of a WinWord or Excel
+       File in explorer.  The info on the summary and statistics pages
+       is read from the DocFile.
+	</li>
+</ul>
+<p>
+<p>
+Microsoft has said that Structured Storage will be the default
+file format in future editions of windows. The MS-Office products are already
+using structured storage. So learning it now will give you a head start.<br>
+<p>
+<p>
+<hr>
+<p>
+
+
+<u><b>So what are DocFiles?</b></u>
+<p>
+The best way to think of a DocFiles is as having a file system
+within a file.  What that means is that a DocFile can contain
+&quot;directories&quot; and &quot;files&quot;.
+<p>
+
+For example a DocFile say  Example.ole could contain<br>
+<p>
+<img src="Graphics/Basic_DocFile_Tree.gif" width=99 height=110 alt=" ">
+
+<p>
+Each "file" is separate from the other. You just open a "file" and
+work with it, without opening or affecting any of the other "files"
+in the DocFile.
+<p>
+<p>
+<hr>
+<p>
+
+
+<u><b>Some Terminology</b></u>
+<p>
+
+<table border=1>
+   <tr>
+		<td>Storage</td>
+		<td>Equivalent of a directory, within the DocFile</td>
+	</tr>
+
+	<tr>
+		<td>Stream</td>
+		<td>Equivalent of a file in a DocFile.  A stream exists in a storage just as a file exists in a directory.
+		</td>
+	</tr>
+</table>
+<p>
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_Creating.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+
+</body>
+</html>

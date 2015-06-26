@@ -1,0 +1,26 @@
+> > You can fill combobox by procedure
+> >
+> > cmb.Items.Clear;
+> > for i := 0 to rvs.TextStyles.Count-1 do
+> >   if rvs.TextStyles[i].Standard then
+> >     cmb.Items.AddObject(rvs.TextStyles[i].StyleName, TObject(i));
+>
+> Yes! But this will add all "standard" styles from RVStyle to the combobox.
+> But can I be sure that when mentionent rvs is connected with RichViewEdit
+> and I load a new document to this editor, all "standard" styles will be
+> automaticly added to rvs? What about those style that already where
+defined
+> in rvs by a previous load of another style? Will they be removed ???
+
+See help on RVFTextStylesReadMode and RVFParaStylesReadMode
+
+>
+> >
+> > I.e., you can store indices of styles in items.objects of combobox.
+> >
+> > When applying style, extract styleno:
+> >
+> > styleno := Integer(cmb.Items.Objects[cmb.ItemIndex]);
+> >
+>
+> I'll use all code that you sent to me and try if it works...

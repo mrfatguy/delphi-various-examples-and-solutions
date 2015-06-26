@@ -1,0 +1,56 @@
+; Project for building Calmira help file
+
+[OPTIONS]
+TITLE=Calmira Help
+COMPRESS=1
+REPORT=ON
+CONTENTS=Contents
+
+
+[FILES]
+CALMIRA0.RTF
+
+
+[WINDOWS]
+main="Calmira help", , 0, , (0, 193, 193)
+
+[MAP]
+
+; Each topic has been assigned a number
+; in case it needs to be referred to in future.
+
+Contents	1
+Introduction	2
+Installing	3
+GettingStarted	4
+
+SystemWindow	21
+IconWindows	22
+Explorer	23
+Bin		24
+Taskbar		25
+StartMenu	26
+References	27
+FileManagement	28
+Descriptions	29
+KeyCommands	30
+SelectingObjects	31
+
+BinProp		50
+DesktopProp	51
+FileProp	52
+FileSystemProp	53
+FindFiles	54
+RunProgram	55
+StartMenuProp	56
+SystemProp	57
+ReferenceProp	58
+TaskbarProp	59
+
+KeyboardShortcuts	80
+BinLocations		81
+CustomIcons		82
+Environment		83
+SystemTRay		84
+CustomDriveNames	85
+MiscSettings		86

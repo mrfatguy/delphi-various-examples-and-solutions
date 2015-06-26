@@ -1,0 +1,183 @@
+DictInstall Versions
+See http://www.ooodocs.org/dictinstall/ for latest version.
+leecorbin@openoffice.org
+
+v0.9.3.2 - 2002/06/26
+
+This is a bug fix release and contains no new features. The bug fixes are:
+
+Proxy issues
+-----------
+Some people were reporting an error message on startup regarding
+ProxyEnable after which the program would not function correctly.
+This problem should now be fixed, enabling the program to work
+with and without HTTP proxy support on more systems.
+
+This version should now also work on systems that use multiple
+proxies for different protocols.
+
+Translations
+------------
+The French translation had problems on some systems whereby
+the user interface of the program was appearing blank (no text
+labels were being shown at all). Obviously this made the program
+rather more difficult to use! Thanks to a diagnosis by Jean-Bruno
+Luginbühl, the French translation should now be working properly
+again. (Note, this may have been affecting some Greek users too.)
+
+
+===================
+v0.9.3.1 - 2002/06/23
+
+This version is a small update to DictInstall; there are no significant new
+features. However, the program now includes two new translations
+(Dutch and Italian), and will now allow multiple dictionaries to be installed
+for a single language/country. This allows for the inclusion of the Latin
+dictionary ... however, there are still bugs with detection of multiple
+dictionaries for a single locale.
+
+The biggest change and the reason for this small release is that the
+program should now work with the changes introduced in OpenOffice.org
+1.0.1 -- without this release, DictInstall would not work at all with
+the new version. If anyone has any problems using DictInstall with 
+OpenOffice.org 1.0.1, please get in touch. However, as yet, there is
+no support for shared dictionaries; DictInstall can only install single
+user dictionaries at the moment.
+
+I hope to make a bigger release with a number of bug fixes and a couple
+of new features fairly soon.
+
+
+===================
+v0.9.3 - 2002/05/23
+
+New features:
+============
+Proxy server support - this version contains initial support for HTTP proxy
+servers. This has been tested on my network -- I'd really appreciate
+further reports (both failures and successes!) with proxy servers from
+anyone who is able to test this.
+
+Translations - as well as English and German, DictInstall now has
+translations for French, Spanish, Danish, Finnish and Greek. Many thanks
+to all those who contributed to these. I had to make some changes
+(including a couple of hacks) to get the Greek alphabet to work, and
+hope to improve on the way this has been done in a later version.
+
+Help file - there is now an initial help file (help.html) which will be
+expanded in time to form a manual. It contains information on setting
+up DictInstall in local mode and with a proxy server. (Note to translators:
+I don't recommend that this be translated yet as it is likely to be
+changed quite a lot in future versions.)
+
+Bug fixes
+=========
+DictInstall should now run successfully even if called from another
+directory. This should facilitate its use on CD-ROMs when called from
+a launcher.
+
+Other bug fixes I have forgotten about. :-)
+
+Known issues
+============
+There are still problems with "double dictionaries"; the two Greek
+dictionaries for example. I have not yet dealt with these as I am
+having to make a few changes to the program to support the
+Latin dictionary and this should sort those issues out.
+
+
+===================
+v0.9.2 - 2002/05/03
+
+New features:
+============
+No major new features: the program now shows the OpenOffice.org
+installation folder though, even if it only finds one installation.
+
+Bug fixes
+=========
+Fixed a bug which appeared to affect single user Win9x users
+(possibly only Win95), whereby downloading the dictionary list
+was repeated endlessly.
+
+Fixed a bug which was causing installation to fail when connecting
+through some local area networks (well, mine!). This may fix problems
+that some users have been having.
+
+Updated the home page listed on the about box to the new
+address: http://www.ooodocs.org/dictinstall/
+
+Note
+====
+I am aware that many people are using DictInstall on machines
+which are connected through a proxy server. It is my intention
+to implement proxy support soon!
+
+
+===================
+v0.9.1 - 2002/04/28
+
+New features:
+============
+
+German Translation
+------------------
+Huge thanks to Marco Huggenberger, who has now translated
+DictInstall into German. Marco is also translating the web page 
+and install guide.
+
+Localisation
+------------
+With the new German translation, I've added locale detection (so 
+if your PC is configured to use German, DictInstall should too.)
+If anyone see's problems with this, please let me know.
+
+Local Install mode
+------------------
+A number of changes have been made to enable "local install mode".
+By making a couple of changes to the configuration, DictInstall will
+take the dictionary zip files from a local folder. This enables its use
+on a CD-ROM including a full set of dictionaries. If anyone needs
+help on setting up a Local Install, please email me:
+leecorbin@openoffice.org
+
+Configuration
+-------------
+The program now stores user configuration in the user's registry 
+and a cache of the dictionary file on the hard disk. This was done
+to make Local Install mode possible, but has other advantages.
+On multi-user systems, each user should now have their own
+set of settings.
+
+
+Bug fixes
+=========
+
+Improved handling of failed connections.
+
+During non-cancellable operations, the window close box is
+greyed out to prevent a crash. In the future, these operations
+will be made cancellable!
+
+Display problems: should now work with Large Fonts (note that
+this is currently imperfect - the fonts are still small - but the
+program is now usable). Hopefully this will solve the 'clipping'
+problem too.
+
+Plus many others!
+
+
+Known issues
+============
+
+There are some problems still with "double dictionaries". That is,
+language/country pairs which have multiple dictionaries. This
+is currently seen with the Greek/Greek Enhanced dictionaries; for
+example, there are problems when switching from one to the
+other. Workaround: uninstall one Greek dictionary before 
+attempting to install the other.
+
+
+===================
+v0.9.0 - 2002/04/24
+First public version!

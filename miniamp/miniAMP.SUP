@@ -1,0 +1,6 @@
+//SUPPRESSIONPROJ:miniAMP
+//VERSION:5.00
+//ENABLE:Yes
+ignore failure KERNEL32.DLL:GetVersionExA in module SHLWAPI.dll
+ignore param 1 KERNEL32.DLL:AddAtomW in module xaudio.dll
+

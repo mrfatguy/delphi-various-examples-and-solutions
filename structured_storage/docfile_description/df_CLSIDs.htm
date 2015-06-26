@@ -1,0 +1,63 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>CLSIDs</u></h2>
+<p>
+
+A CLSID is a very large number 16byte (128 bit) number that is used to uniquely identify &quot;things&quot;. 
+CLSIDs uniquely identify interfaces, objects, components etc etc...  For this article is only important to know
+that a CLSID can be used to identify a storage.
+<p>
+
+There are many reasons for giving a storage CLSIDs. The exact reason obviously depends on your application and needs.
+CLSIDs are used extensively with the IPersistStorage interface when 3rd party apps are allowed to save and load their
+data from within a owner apps storage. 
+<p>
+
+Identifying a storage in this manner is still very useful even when not working with IPersistStorage or other OLE
+technologies. So I'll show you how its done.
+<p>
+
+Here is a function that is used to return a given storage's CLSID
+<p>
+
+<pre><font color="#0000FF">
+   function GetStorageCLSID(  Storage : IStorage  ) : TCLSID;
+   var
+      StatStg : TSTATSTG;
+   begin
+      Storage.Stat(  StatStg,  0  );
+      Result := StatStg.clsid;
+   end;
+</pre></font>
+
+<p>
+
+Setting a storage's CLSID is even easier
+<p>
+<pre><font color="#0000FF">
+   Storage.SetClass(  CLSID_WHAT_EVER  );
+</pre></font>
+<p>
+Where CLSID_WHAT_EVER is a CLSID defined by you.
+<p>
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Storages.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a><a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a><a href="df_Enum.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

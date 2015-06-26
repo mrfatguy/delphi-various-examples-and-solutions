@@ -1,0 +1,531 @@
+object Form1: TForm1
+  Left = 198
+  Top = 103
+  Width = 544
+  Height = 375
+  Caption = 'Form1'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 0
+    Width = 536
+    Height = 348
+    ActivePage = TabSheet8
+    Align = alClient
+    TabOrder = 0
+    object TabSheet1: TTabSheet
+      Caption = 'Bitmap'
+      object Image1: TImage
+        Left = 8
+        Top = 40
+        Width = 41
+        Height = 41
+        AutoSize = True
+      end
+      object Button1: TButton
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 25
+        Caption = 'Read bitmap...'
+        TabOrder = 0
+        OnClick = Button1Click
+      end
+      object Button10: TButton
+        Left = 192
+        Top = 8
+        Width = 75
+        Height = 25
+        Caption = 'Stream copy'
+        TabOrder = 1
+        OnClick = Button10Click
+      end
+    end
+    object TabSheet8: TTabSheet
+      Caption = 'JPEG'
+      ImageIndex = 5
+      object Image2: TImage
+        Left = 8
+        Top = 40
+        Width = 41
+        Height = 41
+        AutoSize = True
+      end
+      object Button9: TButton
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 25
+        Caption = 'Read JPEG...'
+        TabOrder = 0
+        OnClick = Button9Click
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = 'Text'
+      ImageIndex = 1
+      object Button2: TButton
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 25
+        Caption = 'Read text...'
+        TabOrder = 0
+        OnClick = Button2Click
+      end
+      object Memo1: TMemo
+        Left = 8
+        Top = 40
+        Width = 513
+        Height = 273
+        ScrollBars = ssVertical
+        TabOrder = 1
+      end
+    end
+    object TabSheet3: TTabSheet
+      Caption = 'RVF'
+      ImageIndex = 2
+      object Button3: TButton
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 25
+        Caption = 'Read RVF...'
+        TabOrder = 0
+        OnClick = Button3Click
+      end
+      object rv: TRichView
+        Left = 8
+        Top = 40
+        Width = 513
+        Height = 273
+        TabOrder = 1
+        DoInPaletteMode = rvpaCreateCopies
+        Style = RVStyle1
+      end
+    end
+    object TabSheet4: TTabSheet
+      Caption = 'MPEG'
+      ImageIndex = 3
+      object Label1: TLabel
+        Left = 8
+        Top = 40
+        Width = 354
+        Height = 13
+        Caption = 
+          'File inside storage will be extracted to an temp directory and t' +
+          'he executed...'
+      end
+      object Label2: TLabel
+        Left = 8
+        Top = 56
+        Width = 52
+        Height = 13
+        Caption = 'Status: idle'
+      end
+      object Button4: TButton
+        Left = 8
+        Top = 8
+        Width = 177
+        Height = 25
+        Caption = 'Read MPEG file...'
+        TabOrder = 0
+        OnClick = Button4Click
+      end
+    end
+    object TabSheet5: TTabSheet
+      Caption = 'Non-files elements'
+      ImageIndex = 4
+      object PageControl2: TPageControl
+        Left = 0
+        Top = 0
+        Width = 528
+        Height = 320
+        ActivePage = TabSheet6
+        Align = alClient
+        Style = tsFlatButtons
+        TabOrder = 0
+        object TabSheet6: TTabSheet
+          Caption = 'StringList'
+          object Memo2: TMemo
+            Left = 4
+            Top = 28
+            Width = 373
+            Height = 185
+            ScrollBars = ssBoth
+            TabOrder = 0
+            WordWrap = False
+          end
+          object Button8: TButton
+            Left = 4
+            Top = 0
+            Width = 95
+            Height = 25
+            Caption = 'Read StringList'
+            TabOrder = 1
+            OnClick = Button8Click
+          end
+        end
+        object TabSheet7: TTabSheet
+          Caption = 'String && Integer'
+          ImageIndex = 1
+          object Button5: TButton
+            Left = 0
+            Top = 0
+            Width = 137
+            Height = 25
+            Caption = 'Read string STRING1'
+            TabOrder = 0
+            OnClick = Button5Click
+          end
+          object Button6: TButton
+            Left = 0
+            Top = 32
+            Width = 137
+            Height = 25
+            Caption = 'Read integer INTEGER1'
+            TabOrder = 1
+            OnClick = Button6Click
+          end
+          object Button7: TButton
+            Left = 0
+            Top = 64
+            Width = 137
+            Height = 25
+            Caption = 'Read boolean BOOL1'
+            TabOrder = 2
+            OnClick = Button7Click
+          end
+        end
+      end
+    end
+  end
+  object RVStyle1: TRVStyle
+    TextStyles = <
+      item
+        StyleName = 'Normal'
+        FontName = 'Arial'
+        JumpCursor = crDefault
+      end
+      item
+        StyleName = 'Heading'
+        FontName = 'Arial'
+        Size = 20
+        Style = [fsBold]
+        Color = clBlue
+        JumpCursor = crDefault
+        NextStyleNo = 0
+      end
+      item
+        StyleName = 'Subheading'
+        FontName = 'Arial'
+        Size = 14
+        Style = [fsBold]
+        Color = clNavy
+        JumpCursor = crDefault
+        NextStyleNo = 0
+      end
+      item
+        StyleName = 'Courier'
+        FontName = 'Courier New'
+        Style = [fsItalic]
+        Color = clMaroon
+        JumpCursor = crDefault
+      end
+      item
+        StyleName = 'Jump Arial'
+        FontName = 'Arial'
+        Style = [fsUnderline]
+        Color = clGreen
+        Jump = True
+      end
+      item
+        StyleName = 'Colored Jump Times'
+        FontName = 'Times New Roman'
+        Size = 12
+        Style = [fsUnderline]
+        Color = clWhite
+        BackColor = 8421440
+        HoverBackColor = clBlue
+        HoverColor = 13565951
+        Jump = True
+      end
+      item
+        StyleName = 'Symbols'
+        FontName = 'Symbol'
+        Style = [fsBold]
+        Color = 16512
+        JumpCursor = crDefault
+        Protection = [rvprStyleProtect, rvprDoNotAutoSwitch]
+      end
+      item
+        StyleName = 'Subscript'
+        FontName = 'Arial'
+        Size = 9
+        VShift = -50
+        JumpCursor = crDefault
+      end
+      item
+        StyleName = 'Superscript'
+        FontName = 'Arial'
+        Size = 9
+        VShift = 50
+        JumpCursor = crDefault
+      end
+      item
+        StyleName = 'Vector'
+        FontName = 'Arial'
+        Size = 12
+        Style = [fsBold]
+        StyleEx = [rvfsOverline]
+        JumpCursor = crDefault
+      end
+      item
+        StyleName = 'Window Caption'
+        FontName = 'Arial'
+        Style = [fsBold, fsItalic]
+        Color = clCaptionText
+        NextStyleNo = 0
+      end
+      item
+        StyleName = 'Unicode'
+        FontName = 'Arial Unicode MS'
+        Unicode = True
+      end>
+    ParaStyles = <
+      item
+        StyleName = 'Left'
+        FirstIndent = 30
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Left Indent'
+        LeftIndent = 50
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Centered'
+        LeftIndent = 50
+        RightIndent = 50
+        Alignment = rvaCenter
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Right'
+        Alignment = rvaRight
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Justify'
+        FirstIndent = 30
+        Alignment = rvaJustify
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Framed'
+        LeftIndent = 20
+        RightIndent = 20
+        SpaceBefore = 5
+        SpaceAfter = 5
+        Alignment = rvaCenter
+        Border.Style = rvbSingle
+        Border.BorderOffsets.Left = 2
+        Border.BorderOffsets.Right = 2
+        Border.BorderOffsets.Top = 2
+        Border.BorderOffsets.Bottom = 2
+        NextParaNo = 0
+        Options = []
+      end
+      item
+        StyleName = 'Window Caption'
+        LeftIndent = 10
+        RightIndent = 10
+        SpaceBefore = 10
+        SpaceAfter = 10
+        Alignment = rvaCenter
+        Border.Style = rvbThickOutside
+        Border.VisibleBorders.Bottom = False
+        Border.BorderOffsets.Left = 5
+        Border.BorderOffsets.Right = 5
+        Border.BorderOffsets.Top = 5
+        Border.BorderOffsets.Bottom = 10
+        Background.Color = clActiveCaption
+        Background.BorderOffsets.Left = 2
+        Background.BorderOffsets.Right = 2
+        Background.BorderOffsets.Top = 2
+        Background.BorderOffsets.Bottom = 8
+        NextParaNo = 7
+        Options = []
+      end
+      item
+        StyleName = 'Window Workspace'
+        LeftIndent = 10
+        RightIndent = 10
+        SpaceBefore = 10
+        SpaceAfter = 10
+        Alignment = rvaCenter
+        Border.Style = rvbThickOutside
+        Border.VisibleBorders.Top = False
+        Border.BorderOffsets.Left = 5
+        Border.BorderOffsets.Right = 5
+        Border.BorderOffsets.Top = 10
+        Border.BorderOffsets.Bottom = 5
+        Background.Color = clBtnFace
+        Background.BorderOffsets.Left = 2
+        Background.BorderOffsets.Right = 2
+        Background.BorderOffsets.Top = 8
+        Background.BorderOffsets.Bottom = 2
+        NextParaNo = 0
+        Options = []
+      end>
+    ListStyles = <>
+    HoverColor = clRed
+    CheckpointColor = clLime
+    DefUnicodeStyle = 11
+    InvalidPicture.Data = {
+      07544269746D617036100000424D361000000000000036000000280000002000
+      0000200000000100200000000000001000000000000000000000000000000000
+      0000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0
+      C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C000C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF000000FF000000FF00FFFF
+      FF00FFFFFF000000FF000000FF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF000000FF000000
+      FF000000FF000000FF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF000000
+      FF000000FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF000000FF000000
+      FF000000FF000000FF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF000000FF000000FF00FFFF
+      FF00FFFFFF000000FF000000FF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF0080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00C0C0C00000000000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF008080800080808000808080008080800080808000808080008080
+      800080808000808080008080800080808000808080008080800080808000FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      800080808000FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000808080008080800080808000808080008080800080808000808080008080
+      8000}
+  end
+end

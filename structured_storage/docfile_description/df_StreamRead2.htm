@@ -1,0 +1,91 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+
+<h2><u>Reading data from a stream (continued)</u></h2>
+<p>
+
+The storage is open so we can read the data, or can we… ?
+Here is the function used to read data from a stream
+<p>
+
+<pre><font color="#0000FF">
+   IStream.Read(  Buffer for data,
+                  Number of bytes to read,
+                  Number of bytes that were actually read
+               ); 
+</font></pre>
+<p>
+
+
+What we need to know first is the number of bytes to read.
+Since all the stream contains is the memo's text the amount of
+data to read is the same as the size of the stream. 
+<p>
+<br>
+
+Here is a function to return the size of a open stream
+<p>
+<pre><font color="#0000FF">
+   function GetStreamSize(  Stream : IStream  ) : LongInt;
+   var
+      Hr : HResult;
+      StatStg : TStatStg;
+   begin
+
+         <font color="#FFFFFF">{Get the STATSTG info for the stream.
+           Dont return the name (saves mem alloc & dealloc)}</font>
+      Hr := Stream.Stat(  StatStg,  STATFLAG_NONAME  );
+
+
+         <font color="#FFFFFF">{Success?}</font>
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         Result := -1;
+         Exit;
+      end;
+
+
+         <font color="#FFFFFF">{Get the size as a LongInt}</font>
+      Result := Round(  StatStg.cbSize  );
+
+   end;
+</font></pre>
+<p><br>
+
+
+Calling IStream.Stat returns quite a bit of info on the stream,
+this included the stream size. The stream's name is also returned
+unless the STATFLAG_NONAME is specified. The reason for using this flag,
+if you dont want the name returned,
+is that it saves unnecessary memory allocations and deallocations
+used for returning the name.
+<p>
+Reading the data is now possible since we have all the necessary information.
+As with writing data to a stream, using a TOleStream to read the data will make everything much easier.
+<p>
+
+The full source code for this example is available as a zip file on the
+<a href="ZIPSource/ZipSourceIndex.htm">source code page</a>
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_StreamOpen.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_Storages.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>
+

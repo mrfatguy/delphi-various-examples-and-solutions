@@ -1,0 +1,16 @@
+InterAppComm demos
+
+The following demos are distributed with InterAppComm:
+
+* SenderReceiver - Consists of two projects; one a sender, the other a receiver.
+                   Demonstrates how to communicate between two different applications
+                   and hopefully gives an idea how to use the events of the sender 
+                   and the receiver components.
+
+* Instances      - Demonstrates how to communicate between two instances of the same
+                   application. The application is both a sender and a receiver.
+
+
+Troels Jakobsen
+delphiuser@get2net.dk
+

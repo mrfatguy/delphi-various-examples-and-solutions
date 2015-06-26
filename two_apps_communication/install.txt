@@ -1,0 +1,18 @@
+How to install the components
+-----------------------------
+
+*** YOU NEED TO INSTALL THE COMPONENTS BEFORE OPENING THE DEMOS IN DELPHI OR BCB. ***
+
+
+1. Select "Install Component" from the "Component" menu item (may vary
+   depending on your Delphi version).
+
+2. A dialog displays where you must select the components to install and
+   the package to install into. I recommend creating a new package, if you
+   haven't already done so, rather than installing into the default package.
+
+3. Browse for the InterAppComm.pas file and select OK.
+
+4. That's it. The components should be visible in the component palette
+   in a tab called "InterAppComm".
+

@@ -1,0 +1,28 @@
+Short file descripion (for longer descripiton see files themselves!)
+
+DLL source code:
+unzipdll.pas  main dll code (16 bit), to be compiled with TPW or Delphi 1.0
+unzipd32.pas  main dll code (32 bit), to be compiled with Delphi 2.0 (32)
+zipread.pas   functions to read the internal zip file directory 
+unzip.pas     main unzip unit, includes all the files starting with z_
+z_global.pas  global constants, types and variables for unzip
+z_tables.pas  lookup tables for CRC, huffman tables...
+z_generl.pas  general funcions for file I/O message loop, etc.
+z_huft.pas    huffman tree generation and destruction
+z_inflat.pas  inflation code, unzips deflated files
+z_explod.pas  explodes imploded files
+z_expand.pas  expands reduced files
+z_shrunk.pas  unshrinks shrunk files
+z_copyst.pas  extracts stored files
+
+Interface units to access DLLs:
+packdefs.pas  Packer definitions
+zipinter.pas  Interface unit to access ZIP DLL
+
+TPW test program:
+test-unz.pas  Tests unzipping to file and integrity check
+
+Delphi test programs:
+tstunzip.pas  Program to test unzipping a file
+tsttomem.pas  Program to test unzipping to memory
+tstcheck.pas  Program to test file integrity check

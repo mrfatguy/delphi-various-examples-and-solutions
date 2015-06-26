@@ -1,0 +1,30 @@
+[DSP upload]
+Filename=InstPrms.zip
+Replacements=
+Version=
+FileURL=
+Description=Example on How to prevent a second instance and take its parameters
+Delphi 1.0=N
+Delphi 2.0=Y
+Delphi 3.0=Y
+Delphi 4.0=Y
+C++Builder 1.0=N
+File Status=Freeware
+Full Source=Included
+Category=Apps WITH sources
+Note=
+Additional info=
+
+[DSP Support]
+DSP Support=N
+
+[Versions available]
+Delphi 1.0=
+Delphi 2.0=
+Delphi 3.0=
+C++Builder 1.0=
+
+[Uploader]
+Author name=Theodoros Bebekis
+Author E-mail=bebekis@mail.otenet.gr
+Author URL=

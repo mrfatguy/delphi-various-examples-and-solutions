@@ -1,0 +1,17 @@
+#include "LZ_Const.pas"
+
+STRINGTABLE
+{
+
+  SNoValidFileName      "No valid filename in list-file"
+  SInvalidArchive,      "%s is an invalid LZ Archive"
+  SInitFailed,          "LZ-Initialisation failed"
+  SInvalidParams,       "Invalid parameters to LZ function"
+  SSameFileName,        "File %s specified for both Input and Output"
+  SNoTempFileName,      "Cannot create unique temporary file name"
+  SWrongCompressedFile, "Wrong compressed file: %s"
+  SCorruptArchive,      "LZ Archive %s is corrupt"
+  SBadDirectory         "Cannot re-create directory structure %s"
+
+}
+

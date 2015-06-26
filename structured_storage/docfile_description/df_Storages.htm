@@ -1,0 +1,203 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Sub-Storages</u></h2>
+<p>
+
+Now that you know how to read and write data to/from a stream it is time to move on to storages.
+Once again think of a doc file as a file system, the storages are then like directories.
+Storages make it possible to store data in a structured hierarchy.
+<p>
+
+To demonstrate using storages here is a simple application that saves the text from 3 memos to a doc file.
+<p>
+
+<img src="Graphics/Form_Storage.gif" width=274 height=158 border=0 alt=" ">
+<br>
+<table cellspacing=3 cellpadding=3 border=1>
+	<tr>
+		<td><b>Control</b></td>
+		<td><b>Caption</b></td>
+		<td><b>Name</b></td>
+	</tr>
+	<tr>
+		<td>TPageControl</td>
+		<td>&nbsp;</td>
+		<td>PageControl1</td>
+	</tr>
+	<tr>
+		<td>TMemo</td>
+		<td>&nbsp;</td>
+		<td>mem_Page1</td>
+	</tr>
+	<tr>
+		<td>TMemo</td>
+		<td>&nbsp;</td>
+		<td>mem_Page2</td>
+	</tr>
+	<tr>
+		<td>TMemo</td>
+		<td>&nbsp;</td>
+		<td>mem_Page3</td>
+	</tr>
+</table>
+<br><p>
+
+Each of the memos is on a tab of the TPageControl. The data is loaded in the forms's OnShow event and
+saved in the OnHide event.
+<p>
+
+Each memo's data is stored in a stream called <b>Data</b> each in a separate storage separate storage. 
+The hierarchy looks like this<p>
+
+<img src="Graphics/Storage_eg_format.gif" width=83 height=121 border=0 alt=" ">
+<p>
+
+
+<pre><font color="#0000FF">
+   procedure TForm1.FormShow(Sender: TObject);
+
+      procedure LoadPage(  Parent : IStorage;  sName : WideString;  Memo : TMemo  );
+      var
+         Hr : HResult;
+         Stor : IStorage;
+         Stream : IStream;
+         OleStream : TOleStream;
+      begin
+            <font color="#FFFFFF">{Open the storage}</font>
+         Hr := Parent.OpenStorage(  PWideChar(sName),
+                                    nil,
+                                    STGM_READWRITE or
+                                    STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                                    nil,
+                                    0,
+                                    Stor
+                                  );
+
+            <font color="#FFFFFF">{Was is opened?}</font>
+         if(   not SUCCEEDED(  Hr  )   ) then
+         begin
+            (*  Fail  *)
+            Exit;
+         end;
+
+            <font color="#FFFFFF">{Try to open the stream}</font>
+         Hr := Stor.OpenStream(  'Data',
+                                  nil,
+                                  STGM_READWRITE or
+                                  STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                                  0,
+                                  Stream
+                                );
+
+            <font color="#FFFFFF">{Was is opened?}</font>
+         if(   not SUCCEEDED(  Hr  )   ) then
+         begin
+            (*  Fail  *)
+            Exit;
+         end;
+
+            <font color="#FFFFFF">{Create the OleStream}</font>
+         OleStream := TOleStream.Create(  Stream  );
+
+            <font color="#FFFFFF">{Load the data}</font>
+         Memo.Lines.LoadFromStream(  OleStream  );
+
+            <font color="#FFFFFF">{Finished with the OleStream stream}</font>
+         OleStream.Free;
+      end;
+
+   var   
+      Hr : HResult;
+      RootStorage : IStorage;
+   begin
+         <font color="#FFFFFF">{Try open the DocFile}</font>
+      Hr := StgOpenStorage(  'c:\Temp\MyDocFile.ole',
+                             nil,
+                             STGM_READWRITE or
+                             STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                             nil,
+                             0,
+                             RootStorage
+                           );
+
+         <font color="#FFFFFF">{Was is opened?}</font>
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         (*  Fail  *)
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Load the 3 pages}</font>
+      LoadPage(  RootStorage,  '1',  mem_Page1  );
+      LoadPage(  RootStorage,  '2',  mem_Page2  );
+      LoadPage(  RootStorage,  '3',  mem_Page3  );
+   end;
+</font>
+<p>
+
+The <b>FormShow</b> procedure above opens the doc file and then loads the data for the 3 memos by calling the <b>LoadPage</b>
+nested function. The <b>LoadPage</b> function is simple enough and by now you should understand what it does. The only
+thing that needs discussing is the OpenStorage method.
+<p>
+
+
+<pre><font color="#0000FF">
+   Hr := Parent.OpenStorage(  <font color="#FF0000"><b>1 - </b></font>  wsName,
+                              <font color="#FF0000"><b>2 - </b></font>  nil,
+                              <font color="#FF0000"><b>3 - </b></font>  STGM_READWRITE or
+                                    STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                              <font color="#FF0000"><b>4 - </b></font>  nil,
+                              <font color="#FF0000"><b>5 - </b></font>  0,
+                              <font color="#FF0000"><b>6 - </b></font>  Stor
+                            );
+</pre></font>
+<p>
+<table border=1 cellspacing=2 cellpadding=2>
+<tr>
+	<td>1</td>
+	<td>Name of the sub-storage</td>
+</tr>
+<tr>
+	<td>2</td>
+	<td>&quot;it is a pointer to a previous opening of an element of the storage object&quot;<br>
+		 This will normally just <b>nil</b></td>
+</tr>
+<tr>
+	<td>3 </td>
+	<td><a href="df_STGMConstants.htm">Access mode</a></td>
+</tr>
+<tr>
+	<td>4</td>
+	<td>&quot;points to a block of stream names in this storage object that are to be emptied as the object is opened&quot;<br>
+		 Again this is normally <b>nil</b></td>
+</tr>
+<tr>
+	<td>5</td>
+	<td>Reserved must be <b>0</b></td>
+</tr>
+<tr>
+	<td>6</td>
+	<td>The storage to be opened</td>
+</tr>
+</table>
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_StreamRead2.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a><a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a><a href="df_CLSIDs.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

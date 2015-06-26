@@ -1,0 +1,197 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+
+<h2><u>Unicode Parameters and Wrapper Functions</u></h2>
+<br><p>
+
+<u><b><h3>Delphi 3
+</h3></b></u>
+<p>
+Delphi 3 makes UniCode &lt;--&gt; Ansi string conversions trivial.<br>
+Thanks to the <b>WideString</b> variable there is no need for any API conversion routines. 
+<p>
+
+<u>Ansi --&gt; UNICODE</u>
+<p>
+<pre><font color="#0000FF">
+   var
+      s : string;
+      ws : WideString;
+   begin
+      s := 'abc';
+      ws := s;
+   end;
+</pre></font>
+<p>
+
+When you use the OLE functions you normaly need a <b>PWideChar</b>. Just cast a WideSting to a PWideChar to 
+achieve this.
+
+<pre><font color="#0000FF">
+   var
+      ws : WideString;
+   begin
+      ws := 'abc';
+      SomeOLEFunction(  PWideChar(ws)  );
+   end;
+</pre></font>
+
+<p><br>
+
+<u>UNICODE --&gt; Ansi</u>
+
+<pre><font color="#0000FF">
+   var
+      s : string;
+      ws : WideString;
+   begin
+      ws := 'abc';
+      s := ws;
+   end;
+</pre></font>
+
+Easy!
+<hr noshade>
+
+<p><br><p>
+<u><b><h3>Delphi 2</h3></b></u>
+<p>
+
+All the structured storage routines that use strings use unicode
+strings, actually all 32bit OLE string are UNICODE.  So every
+time you want to use one of these routines you need to convert
+from unicode--&gt;ANSI  or  ANSI--&gt;unicode.  As you can
+imagine coding this gets extremely messy, not to mention a tad
+boring.
+<p>
+
+For this reason its a good idea to use wrapper functions. These
+wrapper functions can do all the ANSI&lt;--&gt;unicode conversion.
+Additionally they can do error checking, to make your app more robust.<br>
+<p>
+<hr>
+<p>
+
+
+<u><b>ANSI --&gt; Unicode Conversion</u></b>
+<p>
+
+In Delphi a PWideChar is used as a pointer to a unicode string,
+in the same way as a PChar is used as a pointer to a ANSI string.
+Converting a string from ANSI to Unicode is done with the MultiByteToWide
+API call. Before you can use this function you'll need to allocate
+memory for the new unicode string.
+<p>
+
+The amount of memory a unicode string needs is exactly double
+that used by the ANSI string. The reason for this is that in UNICODE
+a character is 16 bytes and in ANSI a character is 8 bytes.
+<p>
+
+Here is a utility function that does the ANSI --&gt; Unicode conversion
+<p>
+<pre><font color="#0000FF">
+   function StringToPWide(  sStr: string;  var iNewSize: integer  ): PWideChar;
+   var
+      pw : PWideChar;
+      iSize : integer;
+   begin
+         <font color="#FFFFFF">{String to PWideChar, NB memory allocated must be freed by caller}</font>
+      iSize := Length(  sStr  ) + 1;
+      iNewSize := iSize * 2;
+      
+         <font color="#FFFFFF">{Allocate memory}</font>
+      pw := AllocMem(  iNewSize  );
+
+         <font color="#FFFFFF">{Do conversion}</font>
+      MultiByteToWideChar(  CP_ACP,  0,  PChar(sStr),  iSize,  pw,  iNewSize  );
+
+      Result := pw;
+   end;
+</pre></font>
+<p>
+
+The caller must remember to free the memory allocated by this
+function after you are finished using the Unicode string. FreeMem
+is used to accomplish this.
+<p>
+
+
+Here is a short example showing how this function would be used
+<p>
+<pre><font color="#0000FF">
+   procedure TestConversion;
+   var
+      pw : PWideChar;
+      iSize : integer;
+      sANSIString : string;
+   begin
+         <font color="#FFFFFF">{The ANSI string}</font>
+      sANSIString := 'Testing...';
+
+         <font color="#FFFFFF">{Get a unicode string from the ANSI string}</font>
+      pw := StringToPWide(  sANSIString,  iSize  );
+  
+
+      <font color="#FFFFFF">(* Do somthing with the unicode string *)</font>
+
+
+         <font color="#FFFFFF">{Free memory used by the unicode string}</font>
+      FreeMem(  pw  );
+   end;
+</pre></font>
+<p>
+<hr>
+<p>
+
+
+<u><b>Unicode --&gt; ANSI</b></u>
+<p>
+
+Converting a unicode string to a ANSI string is considerably easier,
+than  ANSI to unicode.
+<p>
+Here is the function
+<p>
+<pre><font color="#0000FF">
+   function PWideToString(  pw : PWideChar  ) : string;
+   var
+      p : PChar;
+      iLen : integer;
+   begin
+         <font color="#FFFFFF">{Get memory for the string}</font>
+      iLen := lstrlenw(  pw  ) + 1;
+      GetMem(  p,  iLen  );
+
+         <font color="#FFFFFF">{Convert a unicode (PWideChar) to a string}</font>
+      WideCharToMultiByte(  CP_ACP,  0,  pw,  iLen,  p,  iLen * 2,  nil,  nil  );
+
+      Result := p;
+      FreeMem(  p,  iLen  );
+   end;
+</pre></font>
+<p>
+
+As you can see there is no memory to free afterwards either. 
+<br>
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Creating.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_StreamAndStorageNames.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

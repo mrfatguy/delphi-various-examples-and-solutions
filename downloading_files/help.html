@@ -1,0 +1,151 @@
+<html>
+<head>
+	<title>OpenOffice.org Dictionary Installer</title>
+	<style>
+		P { font-family: Verdana, Helvetica, Arial; font-size: 100%; }
+		H1 { font-family: Verdana, Helvetica, Arial; font-size: 140%; }
+		H2 { padding-top: 12pt; font-family: Verdana, Helvetica, Arial; font-size: 120%; }
+	</style>
+</head>
+
+<body bgcolor="#ffffff" color="#000000" alink="#06348C" vlink="#06348C" link="#06348C">
+
+<font face="Verdana, Helvetica, Arial" size="-1">
+
+
+<h1><b>The OpenOffice.org Dictionary Installer</b><br />Help</h1>
+
+<p>
+	This is the provisional help file for the OpenOffice.org Dictionary Installer. It currently
+	contains information on setting up DictInstall for local mode, and with proxy servers.
+	I hope to expand it soon to make it a full "manual" for the program.
+</p>
+
+<h2>Local Mode</h2>
+<p>
+	DictInstall can be run in a "local install mode". This allows dictionaries to be
+	installed from a hard disk rather than over the Internet. This could be particularly useful
+	for CD-ROM maintainers who wish to provide the Dictionary Installer
+	with all dictionaries as part of their CDs.
+</p>
+
+<p>
+	<b>Setting up local mode</b>
+	<br />To set up local mode, it is necessary to download all the dictionaries and place
+	them (as zip files) into a local folder. The dictionaries can be downloaded from
+	<a href="http://whiteboard.openoffice.org/lingucomponent/download_dictionary.html">
+	the OpenOffice.org web site</a>. I recommend that they be placed in a folder
+	<b>local</b> which is placed inside the DictInstall folder, though other locations
+	are possible. (DictInstall already supports relative path names for this folder, and
+	full support for absolute path names is being considered.)
+</p>
+<p>
+	You will also need to download a dictionary list
+	file for each language that you wish to support (here are the current
+	<a href="http://www.ooodocs.org/dictinstall/dict.txt">English</a>, 
+	<a href="http://www.ooodocs.org/dictinstall/de/dict.txt">German</a>, 
+	<a href="http://www.ooodocs.org/dictinstall/da/dict.txt">Danish</a> and
+	<a href="http://www.ooodocs.org/dictinstall/fi/dict.txt">Finnnish</a> lists).
+	Note that you can download just one if you wish and use it for all languages. Once
+	you have downloaded the dictionary lists, place them in the same directory as the
+	dictionary zip files.
+</p>
+<p>
+	Assuming that you now have a folder called <b>local</b> inside the DictInstall
+	folder, you now need to make a few changes to the configuration file
+	<b>dictinstall.ini</b>. Under <b>[config]</b> there are two lines in the file like this:
+	<pre>
+	#localpath=local\
+	#locallist=dict.txt
+	</pre>
+	You will need to remove the hash symbols. This will cause the program to look
+	in the <b>localpath</b> folder (in this case <b>local\</b>) and read the dictionary
+	list (in this case <b>dict.txt</b>) provided there.
+</p>
+
+<p>
+	If you choose to download dictionary lists for multiple languages, then you will
+	need to point to each of those lists. For example, if you downloaded both
+	English and German <b>dict.txt</b> files, you will need to rename one of them
+	and put its name into the <b>dictinstall.ini</b> file. If you renamed the
+	German one to <b>dict.de.txt</b>, then you would need to add the line <b>
+	locallist=dict.de.txt</b> to the German (<b>[de]</b>) section of the configuration file:
+	<pre>
+	[de]
+	listurl=http://www.ooodocs.org/dictinstall/de/dict.txt
+	nexthelp=http://www.ooodocs.org/dictinstall/de/nexthelp.html
+	locallist=dict.de.txt
+	</pre>
+	In fact, in the current version, the line is provided as an example, so you need
+	only remove the hash from the front of this line too.
+</p>
+
+<p>
+	When you now run the Dictionary Installer, it will look inside the folder you 
+	specified and see if there is a dictionary list there. If so, the program should
+	then install dictionaries directly from that folder. Please note that if the program
+	is unable to find the dictionary list in the location specified, it will revert to
+	its usual mode and download the list and dictionaries over the Internet.
+</p>
+
+<p>
+	If you have any questions or problems getting local installation mode to work,
+	please <a href="mailto:leecorbin@openoffice.org">email me</a>.
+</p>
+
+<h2>Proxy servers</h2>
+
+<p>
+	From version 0.9.3, DictInstall supports the use of HTTP proxy servers. This
+	should allow the program to be used on many networks where it was previously
+	unable. Note that at this point, proxy support is fairly untested: <b>all positive
+	and negative feedback on this feature is greatly appreicated</b>.
+</p>
+
+<p>
+	If you are using an HTTP proxy for your web browsing, and you use
+	Internet Explorer, the program will hopefully work with your proxy server
+	transparently. When it is run, it finds your Internet Explorer settings and tries
+	to use them.
+</p>
+
+<p>
+	If you do not use Internet Explorer, or if you are having problems with this,
+	you will need to set up proxy manually. To do this, you will need to change
+	one line in the configuration file <b>dictinstall.ini</b>.
+	<pre>
+	proxy=auto
+	</pre>
+	When set to <b>auto</b>, the program looks for Internet Explorer proxy
+	settings and uses those. If you have had any problems with this and want to
+	turn off proxy use altogether, change this line to say:
+	<pre>
+	proxy=off
+	</pre>
+	If you are using another browser or want to set proxy settings manually, then
+	you should change this line to contain the server and port number of your
+	server. For example, if your proxy server is on the computer <b>myproxy</b>
+	and port <b>8000</b>, then you would change the line to say:
+	<pre>
+	proxy=myproxy:8000
+	</pre>
+</p>
+
+<p>
+	If you have any comments or have been having any problems with the
+	proxy server feature, please <a href="mailto:leecorbin@openoffice.org">
+	send me an email</a>.
+</p>
+
+
+<font size="-2">
+	<p>
+		<hr size="2" color="#06348C">&#169; 2002 Lee Corbin
+		<br />Updated: 22 May 2002 for DictInstall 0.9.3
+	</p>
+</font>
+
+</font>
+
+</body>
+</html>

@@ -1,0 +1,117 @@
+unzipdll.dll and unzipd32.dll version 2.06. See readme.txt for general
+information on this DLLs.
+
+How to call the functions:
+
+To determine if a file is a ZIP file, use the following function:
+
+function isZip(filename:pchar):boolean;
+
+  This is a very simple test if a file is a ZIP-File.
+  It only tests for the first for bytes being 'pk'#3#4,
+  and also checks for self-extracting ZIP files.
+
+If you want to know the DLL's version number, use
+
+function GetUnzipDllVersion:word;
+
+  This returns the Dll's main version in the high byte and the low
+  version in the low byte (i.e. 2.0->2*256+0=512)
+
+To find out which ZIP formats are supported, use
+
+function GetSupportedMethods:longint;
+
+  For version 0 (storing), bit 0 is set to indicate that version 0
+  is supported. To test if a certain method is supported, use the
+  following code:
+
+  supported:=GetSupportedMethods and (1 shl method); {shl=shift left}
+
+ ******************************************************************** 
+
+To unzip files, one has to know first what files are in the ZIP file.
+For making this very easy, three functions are included:
+
+function GetFirstInZip(zipfilename:pchar;var zprec:tPackRec):integer;
+
+  Works like findfirst: Given a zip file name and an empty structure
+  of type tPackRec, GetFirstInZip fills the structure with the first
+  entry of the central directory. The returned value is one of the
+  constants zip_xxx. If this is zip_ok, the structure was filled
+  with data. Otherwhise, the directory is empty or an error occured.
+  Btw: This function reads the whole directory into one big block of
+  64 k max. If it is bigger, the ZIP file is left open and additional
+  blocks are read on successive GetNextInZip calls.
+
+function GetNextInZip(var Zprec:tPackRec):integer;
+
+  After a successful call to GetFirstInZip, additional entries of 
+  the central directory can be read with this function. The structure
+  Zprec must have been filled with GetFirstInZip, since it contains
+  information on the ZIP file in the 'internal' field. Return value
+  is the same as for GetFirstInZip. 
+
+procedure CloseZipFile(var Zprec:tPackRec);
+
+  After a loop of GetNextInZip, call this functions to free any
+  buffers and to close the zip file.
+
+tZipRec structure:
+
+     tPackRec=record
+       internal:array[0..7] of byte;  {Used internally by the dll}
+       Time,                     {file time}
+       Size,                     {file size}
+       CompressSize,             {size in zipfile}
+       headeroffset: Longint;    {file offset in zip: needed in unzipfile}
+       FileName: tdirtype;       {file name}
+       PackMethod: word;         {see below}
+       Attr: word;               {file attribute}
+       Flags: word;              {Only used by ARJ unpacker}
+     end;
+
+Example:
+  rc:=GetFirstInZip('c:\test.zip',r);
+  while rc=zip_ok do
+    DosomethingWithData(r);
+    rc:=GetNextInZip(r);
+  end;
+  closezipfile(r);
+
+ ******************************************************************** 
+
+To do the unzipping work, call the function unzip:
+
+function unzipfile(in_name:pchar;out_name:pchar;attr:word;offset:longint;
+  hFileAction:thandle;cm_index:integer):integer;
+
+  in_name:      name of zip file with full path (i.e 'c:\test.zip')
+  out_name:     desired name for unzipped file, existing files are overwritten
+  attr:         File attribute, returned in tPackRec.Attr. Important to detect directories
+  offset:       header position of desired file in zipfile, found in 
+                tZiprec.headeroffset
+  hFileAction:  handle to dialog box showing advance of decompression (optional),
+                or zero when only keyboard shall be checked
+  cm_index:     - if hfileaction<>0 : notification code sent in a wm_command
+                  message to the dialog to update percent-bar
+                - if hfileaction=0  : virtual key code of key the user must press
+                  to interrupt unzipping, i.e. vk_escape
+                  
+  Return value: one of the unzip_xxx codes
+
+Simplest unzipping loop, which will just unzip all files:
+
+  rc:=GetFirstInZip(zipname,r);
+  strcopy(target,'c:\');
+  while rc=zip_ok do begin
+    strcopy(buffer,target);
+    strcat(buffer,r.Filename);
+    if unzipfile(zipname,outpath,r.headeroffset,0,vk_escape)=unzip_ok then
+      rc:=GetNextInZip(r)
+    else rc:=zip_InternalError;
+  end;
+  closezipfile(r);
+
+See zipinter.pas, the interface unit, for more details.
+	

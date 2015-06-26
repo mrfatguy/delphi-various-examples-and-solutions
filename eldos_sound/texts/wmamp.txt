@@ -1,0 +1,18 @@
+                  Windows Media Audio decoder interface.
+
+
+    This module implements the interface and output system for Windows Media
+Audio. If you use this module with your application, you will need to deploy
+wmaudioredist.exe (the CORE) with your program.
+    The SDK (and the CORE) are claimed by Microsoft to be BETA. It seems  to
+work correctly, but beware of BETA! 
+    Please, notify me, when Microsoft releases the final version of the SDK.
+
+    Redistribution terms for this module consist of two parts.
+1) wmamp.esp redistribution terms are defined by EldoS Sounds license.
+2) The CORE redistribution terms are defined by Microsoft. As  for  now  its
+redistribution is free.
+
+
+                                                             Eugene Mayevski
+  

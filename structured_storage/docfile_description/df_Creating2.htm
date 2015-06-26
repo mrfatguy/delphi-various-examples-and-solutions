@@ -1,0 +1,129 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Creating a DocFile, take two</u></h2>
+<p>
+
+Wasn't that fun? Lets get back to creating a DocFile shall we.
+<p>
+
+Here is the StgCreateDocFile function again<br>
+<p>
+<pre><font color="#0000FF">
+   function StgCreateDocFile(   Unicode filename,
+                                STGM flags,
+                                Reserved must be 0,
+                                Storage returned
+                             ) : HResult;
+</pre></font>
+<p>
+
+
+<table border=1>
+	<tr>
+		<td width=123>Unicode file name</td>
+		<td width=397>Full path and file name for the DocFile.<p>
+			           <b>&quot;c:\Temp\MyDocFile.ole&quot;</b>
+		</td>
+	</tr>
+	<tr>
+		<td width=123>STGM Flags</td>
+		<td width=397>We want to create a DocFile and have read write access to it.
+		              Here are the flags to use<p>
+							<b>STGM_CREATE or STGM_READWRITE or <br>
+							STGM_DIRECT or STGM_SHARE_EXCLUSIVE</b>
+		</td>
+	</tr>
+	<tr>
+		<td width=123>Reserved</td>
+		<td width=397>Nothing to taxing here&#133;.<p>
+						  <b>0</b>
+		</td>
+	</tr>
+	<tr>
+		<td width=123>Storage returned</td>
+		<td width=397>A reference parameter that will contain the storage
+						  if the function call is successful.<p>
+					     <b>RootStorage</b>
+		</td>
+	</tr>
+</table>
+<p>
+<hr>
+<p>
+
+<p>
+Here is a code snippet that uses creates a DocFile<br>
+<p>
+
+<pre><font color="#0000FF">
+   procedure TestCreate;
+   var
+      Hr : HResult;
+      RootStorage : IStorage;
+   begin
+         <font color="#FFFFFF">{Try create the DocFile}</font>
+      Hr := StgCreateDocFile(  'c:\Temp\MyDocFile.ole',
+                               STGM_CREATE or STGM_READWRITE or
+                               STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                               0,
+                               RootStorage
+                             );
+
+         <font color="#FFFFFF">{Was is created?}</font>
+      if(   SUCCEEDED(  Hr  )   ) then
+      begin
+ 
+         <font color="#FFFFFF">(* Success *)</font>
+
+      end
+      else begin
+
+         <font color="#FFFFFF">(*  Fail  *)</font>
+
+      end;
+   end;
+</pre></font>
+<p>
+<hr>
+<p>
+
+
+<u>Delphi 1 and Delphi 2 users</u>:  dont forget to free the storage
+once you're finished with it. 
+
+
+<p>
+<pre><font color="#0000FF">
+   RootStorage.Release;<br>
+</pre></font>
+<p>
+
+<u>Delphi 3 users:</u> The Release method has been renamed to _Release.
+You must <b>not</b>, however, call this function!
+Delphi does this for you automatically as soon as the variable goes
+out of scope or is used for another purpose.
+
+This is similar to Java's garbage collection, it makes using structured
+storage (and COM/OLE in general) a lot easier.
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_STGMConstants.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_Opening.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+
+<h2><u>Creating a DocFile</u></h2>
+<p>
+
+The function to create a DocFile is  <b>StgCreateDocFile</b>.<br>
+<p>
+
+<pre><font color="#0000FF">
+   function StgCreateDocFile(   Unicode filename,
+                                STGM flags,
+                                Reserved must be 0,
+                                Storage returned
+                             ) : HResult;
+</font></pre>
+ 
+<p>
+A DocFile is itself a Storage, so here the storage returned is
+your file's root storage.
+<p>
+
+To check if the function was successful use the SUCEEDED( )  function.
+For Example<br>
+<p>
+
+<pre><font color="#0000FF">
+   Hr := StgCreateDocFile(....);
+
+   if(   SUCEEDED(  Hr  )   ) then
+   begin
+      <font color="#FFFFFF">//DocFile was created</font>
+   end
+   else begin
+      <font color="#FFFFFF">//Create failed</font>
+   end;
+</font></pre>
+<p>
+
+Don't compare the HResult to <b>S_OK</b>, unless the help file specifically
+says that is what the function returns. The reason for this is that OLE can
+return different values that all mean that the function succeeded but each has
+a subtly different meaning. In other words there are multiple
+success (and failure) codes, this allows OLE to provide additional
+information as to why the function succeeded (or failed).
+<p>
+
+Before completing the explanation on creating a DocFile I'll quickly
+go through some related material that will help you understand
+what's going on.  This material is also relevant for most of the
+other routines to be used later in this article, so lets get this
+out of the way.<br>
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Intro.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_UNICODE.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

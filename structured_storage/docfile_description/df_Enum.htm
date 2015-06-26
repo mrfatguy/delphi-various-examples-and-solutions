@@ -1,0 +1,317 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>Item enumeration - DocFile Viewer</u></h2>
+<p>
+
+Enumerating all the elements in a DocFile can be very useful, to show how it is done I'll create a 
+very simple DocFile viewer. <br>
+NB DocFiles are <b>not</b> optimized for enumeration, which means that enumerating a 
+DocFiles elements is a relatively slow process. You should therefore use enumeration only when absolutely 
+necessary. Later on in this tutorial I'll show a technique that you can use to eliminate enumeration
+and allow you to use storages and streams names of any length. For now I'll continue with enumeration.
+<p>
+
+IStorage.EnumElements is the function that is used to enumerate all the storages sub-items
+<p><br>
+
+<pre><font color="#0000FF">
+   IStorage.EnumElements(  Must be 0,
+                           Must be nil,
+                           Must be 0,
+                           Location for IEnumSTATSTG
+                         ) : HResult;
+</pre></font>
+<p>
+
+EnumElements returns a HResult, S_OK indicates that the IEnumSTATSTG interface was returned.<br>
+Once you have the IEnumSTATSTG interface you can get each sub-element one at a time by using the 
+<b>&quot;Next&quot;</b> method.
+<p>
+
+<pre><font color="#0000FF">
+   IEnumSTATSTG.Next(  Number of items to retrieve,
+                       returned StatSTG,
+                       number fetched
+                     ) : HResult;
+</pre></font>
+
+<p><br>
+
+The following function shows the names of every element in a given storage.
+
+<pre><font color="#0000FF">
+   procedure ShowName(  Stor : IStorage  );
+   var
+      Hr : HResult;
+      Enum : IEnumSTATSTG;
+      StatStg : TStatStg;
+      NumFetched : integer;
+   begin
+         <font color="#FFFFFF">{Start enumeration}</font>
+      Hr := Stor.EnumElements(  0,  nil,  0,  Enum  );
+
+         <font color="#FFFFFF">{Enum started Ok?}</font>
+      if(  Hr <> S_OK  ) then
+         Exit;
+
+      repeat
+            <font color="#FFFFFF">{Get 1 STATSTG}</font>
+         Hr := Enum.Next(  1,  StatStg,  @NumFetched  );
+
+            <font color="#FFFFFF">{Was a STATSTG retrieved?}</font>
+         if(  Hr <> S_OK  ) then
+            continue;
+
+            <font color="#FFFFFF">{Show the elements name}</font>
+         ShowMessage(  StatStg.pwcsName  );
+
+         <font color="#FFFFFF">{Until an error occurs, or enum function indicates a stop}</font>
+      until (  Hr <> S_OK  );
+   end;
+</pre></font>
+<p>
+<hr>
+<p><br><p>
+
+The next step is to use this information to build a simple DocFile viewer.
+<p>
+
+<p><br><p>
+<img src="Graphics/Form_Enum.gif" width=222 height=207 border=0 alt=" ">
+<br>
+<table cellspacing=3 cellpadding=3 border=1>
+	<tr>
+		<td><b>Control</b></td>
+		<td><b>Caption</b></td>
+		<td><b>Name</b></td>
+	</tr>
+	<tr>
+		<td>TPanel</td>
+		<td>&nbsp;</td>
+		<td>Panel1</td>
+	</tr>
+	<tr>
+		<td>TSpeedButton</td>
+		<td>&nbsp;</td>
+		<td>sbut_Load</td>
+	</tr>
+	<tr>
+		<td>TOpenDialog</td>
+		<td>&nbsp;</td>
+		<td>odlg_DocFile</td>
+	</tr>
+	<tr>
+		<td>TTreeView</td>
+		<td>&nbsp;</td>
+		<td>tv_Enum</td>
+	</tr>
+</table>
+<p>
+
+The DocFile viewer loads any DocFile and displays its contents in a TreeView. The tree shown in the picture above
+represents the hierarchy created by example 2 - &quot;<a href="df_Storages.htm">Sub-Storages</a>&quot;. You can also
+load MS excel and word files and view their contents.
+<p>
+
+Starting with the <b>sbut_LoadClick</b> event I'll discuss each of the 3 methods in order
+<p>
+
+
+<pre><font color="#0000FF">
+   procedure TForm1.sbut_LoadClick(Sender: TObject);
+   var
+      ws : WideString;
+   begin
+         <font color="#FFFFFF">{Select a DocFile to open}</font>
+      if(  not odlg_DocFile.Execute  ) then
+         Exit;
+
+
+         <font color="#FFFFFF">{Remove old file info}</font>
+      sbar_Simple.SimpleText := '';
+      tv_Enum.Items.Clear;
+
+
+         <font color="#FFFFFF">{Get UNICODE file name}</font>
+      ws := odlg_DocFile.FileName;
+
+         <font color="#FFFFFF">{Check that this is a DocFile}</font>
+      if(   StgIsStorageFile(  PWideChar(ws)  ) <> S_OK   ) then
+      begin
+         MessageBeep(  MB_ICONEXCLAMATION  );
+         ShowMessage(  'Not a doc file'  );
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Load and parse}</font>
+      ProcessFile(  odlg_DocFile.FileName  );
+   end;
+</pre></font>
+<p>
+
+In <b>sbut_LoadClick</b>.....<br>
+<ol>
+   <li>User is asked to select a new file.</li>
+   <li>If a file is selected then check if it is a DocFile</li>
+   <li>If it is a DocFile Call <b>ProcessFile</b></li>
+</ol>
+<p><hr noshade><p>
+
+
+<pre><font color="#0000FF">
+   procedure TForm1.ProcessFile(  sFileName : WideString  );
+   var
+      Hr : HResult;
+      Root : IStorage;
+   begin
+         <font color="#FFFFFF">{open storage}</font>
+      Hr := StgOpenStorage(  PWideChar(sFileName),
+                             nil,
+                             STGM_READWRITE or STGM_DIRECT or
+                             STGM_SHARE_EXCLUSIVE,
+                             nil,
+                             0,
+                             Root
+                           );
+
+         <font color="#FFFFFF">{File opened?}</font>
+      if(   not SUCCEEDED(  Hr  )   ) then
+      begin
+         MessageBeep(  -1  );
+         ShowMessage(  'Cant open file - ' + sFileName  );
+         Exit;
+      end;
+
+         <font color="#FFFFFF">{Add Root}</font>
+      tv_Enum.Items.Add(  nil,  sFileName  );
+         <font color="#FFFFFF">{Display name of open file}</font>
+      sbar_Simple.SimpleText := sFileName;
+
+         <font color="#FFFFFF">{Start the enumeration}</font>
+      EnumInStorage(  Root,  tv_Enum.Items[ 0 ]  );
+
+         <font color="#FFFFFF">{Show all}</font>
+      tv_Enum.FullExpand;
+   end;
+</pre></font>
+<p>
+
+<b>ProcessFile</b><br>
+<ol>
+   <li>Try to open the given DocFile</li>
+   <li>If the file cant be opened exit</li>
+   <li>Add a root node to the TreeView, the node's caption = the files name</li>
+   <li>Start the enumeration by calling <b>EnumInStorage</b></li>
+</ol>
+<p><hr noshade><p>
+
+<pre><font color="#0000FF">
+   procedure TForm1.EnumInStorage(  Stor : IStorage;  Node : TTreeNode  );
+   var
+      Hr : HResult;
+      Enum : IEnumSTATSTG;
+      SubNode : TTreeNode;
+      StatStg : TStatStg;
+      SubStor : IStorage;
+      HrSubStor : HResult;
+      NumFetched : integer;
+   begin
+         <font color="#FFFFFF">{Start enumeration}</font>
+      Hr := Stor.EnumElements(  0,  nil,  0,  Enum  );
+      OleCheck(  Hr  );
+
+      repeat
+            <font color="#FFFFFF">{Get 1 STATSTG}</font>
+         Hr := Enum.Next(  1,  StatStg,  @NumFetched  );
+
+            <font color="#FFFFFF">{Was a STATSTG retrieved?}</font>
+         if(  Hr <> S_OK  ) then
+            continue;
+
+            <font color="#FFFFFF">{What type of element was returned?}</font>
+         case StatStg.dwType of
+
+            STGTY_STORAGE : <font color="#FFFFFF">{Name of IStream element}</font>
+            begin
+                  <font color="#FFFFFF">{Add node for the IStorage}</font>
+               SubNode := tv_Enum.Items.AddChild(  Node,  StatStg.pwcsName  );
+
+                  <font color="#FFFFFF">{Open the sub-storage}</font>
+               HrSubStor := Stor.OpenStorage(  StatStg.pwcsName,
+                                               nil,
+                                               STGM_READWRITE or STGM_DIRECT or
+                                               STGM_SHARE_EXCLUSIVE,
+                                               nil,
+                                               0,
+                                               SubStor
+                                             );
+
+                  <font color="#FFFFFF">{If the storage was not opened}</font>
+               if(   SUCCEEDED(  HrSubStor  )   ) then
+               begin
+                     <font color="#FFFFFF">{Enum all elements in the sub-storage}</font>
+                  EnumInStorage(  SubStor,  SubNode  );
+               end;
+            end;
+
+
+            STGTY_STREAM : <font color="#FFFFFF">{Name of IStream element}</font>
+            begin
+                  <font color="#FFFFFF">{Add node for the stream}</font>
+               tv_Enum.Items.AddChild(  Node,  StatStg.pwcsName  );
+            end;
+         end;
+
+         <font color="#FFFFFF">{Until an error occurs, or enum function indicates a stop}</font>
+      until (  Hr <> S_OK  );
+   end;
+</pre></font>
+<p><br>
+
+<b>EnumInStorage</b> is the procedure in which all the enumeration is done. This is a recursive function, it is
+called recursively once for every sub-storage. 
+<p>
+
+<ol>
+   <li>Start the enumeration (<i><font color="#0000FF">Stor.EnumElements</font></i>)<p></li>
+   <li>Check for an error (<i><font color="#0000FF">OleCheck(  Hr  );</font></i>)<p></li>
+   <li>Repeat for every element in the IEnumSTATSTG<p>
+		<ol>
+			<li>Get next StatSTG element (<i><font color="#0000FF">Enum.Next(  1,  StatStg,  @NumFetched  );</font></i>)<p></li>
+			<li>If the element is a storage (STGTY_STORAGE) then<p>
+				<ol>
+					<li>Add a node for this storage, caption = <b>StatStg.pwcsName</b><p></li>
+					<li>Open this sub-storage<p></li>
+					<li>If the sub-storage was opened, call <b>EnumInStorage</b> (recursion)<p></li>
+				</ol>
+				<p>
+			</li>
+
+			<li>If the element is a stream (STGTY_STREAM) then
+				<ol>
+					<li>Add a node for this stream, caption = <b>StatStg.pwcsName</b><p></li>
+				</ol>
+			</li>
+		</ol>
+   </li>
+</ol>
+<p>
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_CLSIDs.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a><a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a><a href="df_Compress.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

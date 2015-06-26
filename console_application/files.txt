@@ -1,0 +1,14 @@
+ConsoleApp.pas
+ConsoleTest.dof
+ConsoleTest.dpr
+ConsoleTest.res
+ConsoleUnit.dfm
+ConsoleUnit.pas
+D2ImageHelp.pas
+DOSTEST.EXE
+dostest.pas
+files.txt
+TestBat.bat
+Win32Test.dof
+Win32Test.dpr
+Win32Test.exe

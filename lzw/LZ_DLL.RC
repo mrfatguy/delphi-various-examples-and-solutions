@@ -1,0 +1,9 @@
+#include "LZ_DLL.pas"
+
+STRINGTABLE
+{
+
+  SBusyChief, "Library ChiefLZ currently in use"
+
+}
+

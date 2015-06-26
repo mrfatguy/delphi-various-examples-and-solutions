@@ -1,0 +1,49 @@
+                           ELDOS SOUNDS LICENSE
+
+       TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
+
+   EldoS Sounds is the free product. One may use it for free  according  to
+   the conditions, stated in this license. 
+
+1. EldoS Sounds may be used for free in freeware and shareware projects. If 
+   you're using EldoS Sounds in a commercial project, please contact  EldoS
+   for permission (this permission is given  for   free,  but  donations to
+   support EldoS are welcome). If you're using EldoS Sounds in any  product
+   (freeware, shareware, open-source or  commercial),  please  include  the
+   following note to the product documentation:
+
+   ========================================================================
+   This software uses EldoS Sounds package to <here you mention, what EldoS
+   Sounds is used for in your software. Ex. play MP3 streams>. EldoS Sounds
+   is a free package, and you can find it on http://www.eldos.org
+   EldoS Sounds project  manager  is  Eugene  Mayevski,  Mayevski@eldos.org
+   ========================================================================
+
+   EldoS   Sounds  MAY  NOT  be  used in shareware or commercial  software,
+   that  can be  a  competitor to existing commercial or shareware products
+   made by EldoS. This  means  that  when  you  start  to use EldoS Sounds,
+   please,  visit EldoS homepage and check for existence of the competitive
+   project by EldoS.
+
+2. EldoS Sounds consists of Delphi  components  and  decoder  modules.  The
+   Delphi components may be modified as you wish. ElAMP audio MPEG  decoder 
+   and WAV player are free for modification, but please, notify EldoS about
+   such modifications. WMA interface module can be used  under  conditions,
+   stated in this license. OGG module can be  used  and  distributed  under 
+   same conditions as ELAMP is.
+     Other decoders may include different modification terms.
+  
+3. EldoS Sounds may be freely redistributed, but the origin of the  package
+   should be clearly stated and should not be altered.  If  you  distribute
+   the files, modified by someone, such  modifications  should  be  clearly
+   stated both in source code and documentation ("Who's Guilty" section  in
+   readme.txt). 
+
+4. EldoS Sounds is distributed AS IS, WITHOUT ANY WARRANTIES. EldoS  Sounds 
+   authors are not responsible for  any  damages,  caused  by  using  EldoS
+   Sounds.
+
+
+
+
+                                                            Eugene Mayevski

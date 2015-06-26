@@ -1,0 +1,55 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+
+<h2><u>Delphi 3's _Release</u></h2>
+<p>
+
+As I've said there is no need to call _Release in Delphi 3. Calling it will probably
+cause your app to crash.  I've also said that this "auto-release" its a great addition
+to Delphi. It is however important to remember that Delphi 3 is not psychic,  maybe version
+4.0... ?
+<p>
+
+The point is that there are times when you will need to be sure that Delphi has freed
+a storage / stream.  This is done easily enough, set the stream / storage variable
+to <b>nil</b>.
+<p>
+
+<pre><font color="#0000FF">
+   <font color="#FFFFFF">{stor is a variable of type IStorage}</font>
+
+   stor := blablabla; <font color="#FFFFFF">//Open storage here</font>
+
+   <font color="#FFFFFF">(* Use storage *)</font>
+
+      <font color="#FFFFFF">{Make sure that the storage is released}</font>
+   stor := nil;
+
+</font></pre>
+<p><br>
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_StreamCreateWrite.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_StreamRead1.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>
+
+
+

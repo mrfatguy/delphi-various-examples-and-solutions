@@ -1,0 +1,9 @@
+#include "LZ_Link.pas"
+
+STRINGTABLE
+{
+
+  SDLLReadyLoaded, "ChiefLZ DLL has already been loaded"
+
+}
+

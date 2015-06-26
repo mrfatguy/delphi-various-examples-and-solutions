@@ -1,0 +1,365 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<title>InterAppComm, ver. 1.0.0</title>
+
+<style type='text/css'>
+/*  body         { font-family: MS Sans Serif; font-size: 12pt; } */
+  h1           { font: bold 14pt Arial; margin-bottom: 10px; }
+  h2           { font: bold 12pt Arial; margin-bottom: 10px; margin-top: 40px; }
+  td.name      { background-color: #CCCCCC; width: 120px; font-weight: bold; }
+  td.name2     { background-color: #99DDAA; width: 120px; font-weight: bold; }
+  td.desc      { background-color: #F0F0F0; }
+  td.default   { background-color: #F0F0F0; }
+  ul           { margin-left: 15px; margin-top: 5px; }
+  li           { margin-bottom: 10px; }
+  .declaration { font-weight: bold; }
+</style>
+
+</head>
+
+
+<body topmargin='15' bottommargin='15' leftmargin='10' rightmargin='10'>
+
+<a name='Top'><h1>InterAppComm, ver. 1.0.0</h1>
+
+
+<a href='#InterAppSender'>[InterAppSender]</a> <a href='#InterAppReceiver'>[InterAppReceiver]</a>
+<br>
+<a href='#Hints'>[Hints]</a> <a href='#Bugs'>[Known Bugs]</a> <a href='#Comments'>[Comments]</a>
+<br>
+
+
+<p>
+InterAppComm consists of two components, InterAppSender and InterAppReceiver, which can 
+communicate between separate applications running on the same machine. The communication 
+occurs conveniently through the use of events.
+</p>
+
+<p>
+Typically you place a sender in one application and a receiver in one or more other applications.
+The sender can determine how many receivers are currently running and can send data
+to them in various formats (string, integer, real, or custom format). It can also detect
+a receiver being created, destroyed, enabled, or disabled.
+</p>
+
+<p>
+The sender can communicate with all running receivers or just a group of receivers 
+sharing the same group name.
+</p>
+
+
+<br>
+<a name='InterAppSender'></a><h1 style='background-color: #CCCCCC;'>InterAppSender</h1>
+
+<a href='#InterAppSender_Properties'>[Properties]</a>
+<a href='#InterAppSender_Methods'>[Methods]</a>
+<a href='#InterAppSender_Events'>[Events]</a>
+<br>
+
+<a name='InterAppSender_Properties'></a><h2>Properties</h2>
+
+<table cellpadding='2' cellspacing='2' border='0' width='100%'>
+<tr>
+  <td class='name' valign='top'>Enabled</td>
+  <td class='desc' valign='top'><span class='declaration'>property Enabled: Boolean;</span><br>
+  When enabled, the component will accept events issued from InterAppReceiver objects.</td>
+  <td class='default' valign='top' nowrap>Default true</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>Handle</td>
+  <td class='desc' valign='top'><span class='declaration'>property Handle: HWND;</span><br>
+  The component's handle.</td>
+  <td class='default' valign='top' nowrap>Read-only</td>
+</tr>
+</table>
+
+
+
+<a name='InterAppSender_Methods'></a><h2>Methods</h2>
+
+<table cellpadding='2' cellspacing='2' border='0' width='100%'>
+<tr>
+  <td class='name' valign='top'>Call</td>
+  <td class='desc' valign='top'><span class='declaration'>type THandleArray = array of THandle;<br>
+  function Call(Silent: Boolean): THandleArray;</span><br>
+  Broadcasts a message which all running InterAppReceiver objects respond to (unless they
+  are not enabled). For each receiving object its OnReceiveCall event method will fire, 
+  and it will automatically reply to the sender, causing the sender's OnReceiverReply event 
+  method to fire.<br>
+  <b>Parameters:</b><br>
+  If the <i>Silent</i> parameter is true the sender and receiver will not generate any events.<br>
+  <b>Return value:</b><br>
+  Returns an array containing the handles of all running, enabled InterAppReceiver objects.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>CallGroup</td>
+  <td class='desc' valign='top'><span class='declaration'>type THandleArray = array of THandle;<br>
+  function CallGroup(GroupName: ShortString; Silent: Boolean): THandleArray;</span><br>
+  The same as Call, except only receivers with a matching <i>GroupName</i> property
+  are targeted. For each receiving object with a matching GroupName its OnReceiveCall event
+  method will fire, and it will automatically reply to the sender, causing the sender's 
+  OnReceiverReply event method to fire.<br>
+  <b>Parameters:</b><br>
+  <i>GroupName</i> is the group name of the targeted receivers.<br>
+  If the <i>Silent</i> parameter is true the sender and receiver will not generate any events.<br>
+  <b>Return value:</b><br>
+  Returns an array containing the handles of all running, enabled InterAppReceiver objects
+  with the specified GroupName.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>SendString</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure SendString(Receiver: HWND; Text: ShortString);</span><br>
+  Sends a ShortString (max. 255 chars) to the InterAppReceiver object specified by <i>Receiver</i>, 
+  causing its OnReceiveString event method to fire.<br>
+  <b>Parameters:</b><br>
+  <i>Receiver</i> is the handle of the InterAppReceiver object for which the transfer is
+  intended.<br>
+  <i>Text</i> is the text to send.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>SendInteger</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure SendInteger(Receiver: HWND; Value: Longint);</span><br>
+  Sends a Longint value to the InterAppReceiver object specified by <i>Receiver</i>, 
+  causing its OnReceiveInteger event method to fire.<br>
+  <b>Parameters:</b><br>
+  <i>Receiver</i> is the handle of the InterAppReceiver object for which the transfer is
+  intended.<br>
+  <i>Value</i> is the value to send.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>SendReal</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure SendReal(Receiver: HWND; Value: Real);</span><br>
+  Sends a Real value to the InterAppReceiver object specified by <i>Receiver</i>, 
+  causing its OnReceiveReal event method to fire.<br>
+  <b>Parameters:</b><br>
+  <i>Receiver</i> is the handle of the InterAppReceiver object for which the transfer is
+  intended.<br>
+  <i>Value</i> is the value to send.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>SendData</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure SendData(Receiver: HWND; Data: Pointer; DataSize: Cardinal);</span><br>
+  Sends custom data to the InterAppReceiver object specified by <i>Receiver</i>, 
+  causing its OnReceiveData event method to fire.<br>
+  <b>Parameters:</b><br>
+  <i>Receiver</i> is the handle of the InterAppReceiver object for which the transfer is
+  intended.<br>
+  <i>Data</i> is a pointer to the custom data to send. The format must be known to the sender.
+  Use a packed record as data.<br>
+  <i>DataSize</i> is the size of the data referenced by <i>Data</i> (use SizeOf to 
+  determine it).<br>
+  <b>NOTE:</b> The sender and receiver must adhere to the same format in order to
+  exchange meaningful data (and avoid access violation errors).<br>
+  <b>NOTE:</b> Don't use <i>Data</i> to transfer pointers as they'll be invalid outside the
+  sending application.<br>
+  <b>EXAMPLE:</b> <code>InterAppSender1.SendData(H, @MyRecord, <nobr>SizeOf(MyRecord));<nobr></code></td>
+</tr>
+</table>
+
+
+
+<a name='InterAppSender_Events'></a><h2>Events</h2>
+
+<table cellpadding='2' cellspacing='2' border='0' width='100%'>
+<tr>
+  <td class='name' valign='top'>OnReceiverReply</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; ReceiverHandle: HWND) of object;</span><br>
+  Fired when the component receives a reply from an InterAppReceiver object,
+  in response to the Call or the CallGroup method. <i>ReceiverHandle</i> is the handle of
+  the InterAppReceiver object.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>OnReceiverCreated</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; ReceiverHandle: HWND) of object;</span><br>
+  Fired when a new InterAppReceiver object is created.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>OnReceiverDestroyed</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; ReceiverHandle: HWND) of object;</span><br>
+  Fired when an InterAppReceiver object is destroyed.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>OnReceiverEnabled</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; ReceiverHandle: HWND) of object;</span><br>
+  Fired when a previously disabled InterAppReceiver object is enabled.</td>
+</tr>
+<tr>
+  <td class='name' valign='top'>OnReceiverDisabled</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; ReceiverHandle: HWND) of object;</span><br>
+  Fired when a previously enabled InterAppReceiver object is disabled.</td>
+</tr>
+</table>
+
+
+
+<br>
+<br>
+<a name='InterAppReceiver'></a><h1 style='background-color: #99DDAA;'>InterAppReceiver</h1>
+
+<a href='#InterAppReceiver_Properties'>[Properties]</a>
+<a href='#InterAppReceiver_Methods'>[Methods]</a>
+<a href='#InterAppReceiver_Events'>[Events]</a>
+<br>
+
+<a name='InterAppReceiver_Properties'></a><h2>Properties</h2>
+
+<table cellpadding='2' cellspacing='2' border='0' width='100%'>
+<tr>
+  <td class='name2' valign='top'>Enabled</td>
+  <td class='desc' valign='top'><span class='declaration'>property Enabled: Boolean;</span><br>
+  When enabled, the component will respond to calls and data transfers from InterAppSender
+  objects.</td>
+  <td class='default' valign='top' nowrap>Default true</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>Handle</td>
+  <td class='desc' valign='top'><span class='declaration'>property Handle: HWND;</span><br>
+  The component's handle.</td>
+  <td class='default' valign='top' nowrap>Read-only</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>GroupName</td>
+  <td class='desc' valign='top'><span class='declaration'>property GroupName: ShortString;</span><br>
+  The GroupName property can be used to define a group of receiver objects.
+  Setting GroupName to some unique string and only using InterAppSender's CallGroup method 
+  (rather than Call) ensures you don't inadvertently communicate with other applications 
+  containing InterAppReceiver objects.
+  </td>
+  <td class='default' valign='top' nowrap><br></td>
+</tr>
+</table>
+
+
+
+<a name='InterAppReceiver_Methods'></a><h2>Methods</h2>
+
+No methods.
+
+
+
+<a name='InterAppReceiver_Events'></a><h2>Events</h2>
+
+<table cellpadding='2' cellspacing='2' border='0' width='100%'>
+<tr>
+  <td class='name2' valign='top'>OnReceiveCall</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; SenderHandle: HWND) of object;</span><br>
+  Fired when an InterAppSender object broadcasts a call, using the Call or the CallGroup 
+  method (with the <i>Silent</i> parameter set to false). The InterAppReceiver object will
+  automatically send a reply (unless it is not enabled).<br>
+  <b>NOTE:</b> <i>SenderHandle</i> is the handle of the InterAppSender object. Don't confuse
+  it with <i>Sender</i>.</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>OnReceiveString</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; SenderHandle: HWND; Text: ShortString) of object;</span><br>
+  Fired in response to an InterAppSender object sending a string, using the
+  SendString method.<br>
+  <b>NOTE:</b> The string is a ShortString (max. 255 chars).</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>OnReceiveInteger</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; SenderHandle: HWND; Value: Longint) of object;</span><br>
+  Fired in response to an InterAppSender object sending a Longint value, using the
+  SendInteger method.</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>OnReceiveReal</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; SenderHandle: HWND; Value: Real) of object;</span><br>
+  Fired in response to an InterAppSender object sending a Real value, using the
+  SendReal method.</td>
+</tr>
+<tr>
+  <td class='name2' valign='top'>OnReceiveData</td>
+  <td class='desc' valign='top'><span class='declaration'>procedure(Sender: TObject; SenderHandle: HWND; Data: Pointer; DataSize: Cardinal) of object;</span><br>
+  Fired in response to an InterAppSender object sending data, using the
+  SendData method.<br>
+  <b>NOTE:</b> The sender and receiver must adhere to the same format in order to
+  exchange meaningful data (and avoid access violation errors).</td>
+</tr>
+</table>
+
+
+
+<a name='Hints'></a><h2>Hints</h2>
+
+<ul>
+<li><b>Don't execute modal or time-consuming code in the event methods.</b><br>
+The communication between the two InterApp components works like this: the sender sends a 
+message, then waits for the receiver to process the message (or the receiver may send a reply, 
+then wait for the sender to process the reply message). This means that <i>the component
+sending a message is unable to process any succeeding messages</i> until the receiving 
+component has finished processing the message from the sender (the &quot;sender&quot;
+and &quot;receiver&quot; in this case refers to both the InterAppSender and the 
+InterAppReceiver component as they both send messages to the other).
+<br><br>
+Example 1: Application A contains an InterAppSender object, and application B contains
+an InterAppReceiver object. A sends a value to B, using the SendInteger method.
+This causes B to receive the OnReceiveInteger event method. If B chooses to display
+a messagebox in this event method then A will be unable to process any messages until
+the user closes the messagebox. A will not even repaint itself.
+<br><br>
+Example 2: A is a sender, B and C are receivers. A executes the Call method, which
+broadcasts a message to all top-level windows. If B chooses to display a messagebox in
+its resulting OnReceiveCall event method, then - while this messagebox is open - not only
+will A not process any messages, C will not receive the message from A either.
+<br><br>
+So avoid modal or time-consuming code in the event methods, unless that is not a concern
+(eg. if the sender is an invisible application).
+</li>
+
+<li><b>Use InterAppReceiver's GroupName property.</b><br>
+Setting GroupName to some unique string and only using InterAppSender's CallGroup method 
+(rather than Call) ensures you don't inadvertently communicate with other applications
+containing InterAppReceiver objects.
+<br><br>
+Be aware that receivers are not &quot;owned&quot; by a sender even though they may have
+a group name. All senders can choose to send to all receivers (using Call), and a 
+receiver replies to any sender calling it. Also, a receiver will automatically
+notify <i>all</i> senders when it's created, destroyed, enabled, or disabled.
+</li>
+
+<li><b>Can the sender and receiver communicate through a network?</b><br>
+No, they must both reside in applications running on the same machine.
+</li>
+
+<li><b>How many senders and receivers can I use at the same time?</b><br>
+As many as you like. They don't use polling, so there's no overhead when they're running.
+</li>
+
+<li><b>Upon receiving a value I want the receiver (B) to return a modified value to the sender (A)?</b><br>
+In that case application B must also have a sender component, and application A
+must also have a receiver component. Be careful A or B does not send to itself.
+</li>
+</ul>
+
+
+
+<a name='Bugs'></a><h2>Known Bugs</h2>
+
+<ul>
+<li>None known at this point.
+</li>
+</ul>
+
+
+
+<a name='Comments'></a><h2>Comments</h2>
+
+InterAppComm is <i>freeware</i>. Feel free to use and improve it,
+but <i>please include all original files if you redistribute the zip-file</i>.
+If you have any comments or corrections I would very much like to hear them.
+</p>
+
+<p>
+Get the latest version from <a href='http://www3.brinkster.com/troels/delphi.asp' target='_blank'>
+http://www3.brinkster.com/troels/delphi.asp</a>.
+</p>
+
+<p>
+Troels Jakobsen<br>
+<a href='mailto:delphiuser@get2net.dk'>delphiuser@get2net.dk</a>
+</p>
+
+</body>
+</html>

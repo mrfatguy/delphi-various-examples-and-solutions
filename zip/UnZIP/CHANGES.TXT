@@ -1,0 +1,22 @@
+Changes made to info-unz.dll (Date in Day.Month.Year format):
+
+02.10.1997 (the African Chief) added the strings unit to the USES clause of TEST-UNZ.PAS under DOS
+           (the African Chief) added a compiled copy of UNZIPDLL.DLL (compiled with BP 7.01)
+22.02.1997 all files    Adapted to compile with Delphi 2.0
+14.09.1996 unzip.pas    Problems with ZIP packed with DynaZip fixed (bug in pkzip appnote.txt!)
+02.09.1996 z_shrunk.pas unshrink_flush now calls Flush so unshrink to memory now also works
+07.08.1996 unzip.pas    added UnzipTestIntegrity
+27.08.1995 zipread.pas  added OemToAnsi when compiled for Windows
+18.06.1995 z_expand     added for missing reduced file support
+26.12.1994 changed interface to DLL due to problems distinguishing files / directories in zip file
+26.12.1994 added feature to unpack to memory
+18.01.1994 zipread.pas  ZIP-Files with comments PER FILE are now interpreted correctly
+18.01.1994 unzip.pas    Now using filemode 0 when opening files (sharing mode 32 produced problems)
+18.01.1994 z_copyst.pas Copying stored files can now be interrupted
+15.12.1993 zipread.pas  In unzip and iszip, the current directory is now preserved (it was
+           unzip.pas    destroyed by the function before)
+ 7.12.1993 zipread.pas  Error in iszip() corrected.
+ 2.11.1993 z_generl.pas When compiled for dos, unzip can be interrupted with a key
+           zipread.pas  Now reads header of ANY size (before: 64k max.)
+           unzip.pas    Now also extracts directories
+           test-unz.pas DOS-Version can now also be interrupted by pressing ESC

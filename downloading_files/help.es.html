@@ -1,0 +1,171 @@
+<html>
+<head>
+	<title>Instalador de Diccionarios OpenOffice.org</title>
+	<style>
+		P { font-family: Verdana, Helvetica, Arial; font-size: 100%; }
+		H1 { font-family: Verdana, Helvetica, Arial; font-size: 140%; }
+		H2 { padding-top: 12pt; font-family: Verdana, Helvetica, Arial; font-size: 120%; }
+	</style>
+</head>
+
+<body bgcolor="#ffffff" color="#000000" alink="#06348C" vlink="#06348C" link="#06348C">
+
+<font face="Verdana, Helvetica, Arial" size="-1">
+
+
+<h1><b>El Instalador de Diccionarios OpenOffice.org</b><br />Ayuda</h1>
+
+<p>
+	Este es un archivo de ayuda provisional para el Instalador de Diccionarios
+	OpenOffice.org. Actualmente, contiene información sobre cómo configurar DictInstall para
+	modo local y con servidores proxy. Espero aumentarlo pronto para hacer un completo
+	"manual" del programa.
+</p>
+
+<h2>Modo Local</h2>
+<p>
+	DictInstallpuede ser ejecutado en "modo de instalación local". Esto permite a los
+	diccionarios ser instalados en un disco duro en vez de Internet. Esto puede ser
+	particularmente útil para mantenedores de CD-ROM que deseen proveer el Instalador
+	de Diccionarios con todos los diccionarios como parte de sus CDs.
+</p>
+
+<p>
+	<b>Configurando el modo local</b>
+	<br />Para configurar el modo local, es necesario descargar todos los diccionarios
+	y colocarlos (como archivos zip) dentro de una carpeta local. Los diccionarios pueden
+	ser descargados desde
+	<a href="http://whiteboard.openoffice.org/lingucomponent/download_dictionary.html">
+	el sitio web de OpenOffice.org</a>. Recomiendo colocarlos en una carpeta
+	<b>local</b> dentro de la carpeta de DictInstall, aunque otros sitios también son
+	posibles. (DictInstall actualmente soporta directorios relativos para esta carpeta, y 
+	total soporte para carpetas absolutas está siendo considerado.)
+</p>
+<p>
+	Necesitas también descargarte una lista de diccionarios para cada idioma que desees
+	dar soporte (aquí están las listas disponibles actualmente
+	<a href="http://www.ooodocs.org/dictinstall/es/dict.txt">Español</a>
+	<a href="http://www.ooodocs.org/dictinstall/dict.txt">Inglés</a>, 
+	<a href="http://www.ooodocs.org/dictinstall/de/dict.txt">Alemán</a>, 
+	<a href="http://www.ooodocs.org/dictinstall/da/dict.txt">Danés</a> and
+	<a href="http://www.ooodocs.org/dictinstall/fi/dict.txt">Finlandés</a>).
+	Observa que puedes cargar sólo la que desees y usarla para todos los idiomas. Una vez que
+	hayas descargado la lista de diccionarios, colócala en el mismo directorio que los
+	diccionarios comprimidos.
+</p>
+<p>
+	Asumiendo que tienes una carpeta llamada <b>local</b> dentro de la carpeta de 
+	DictInstall, ahora necesitas hace unos pocos cambios en el archivo
+	<b>dictinstall.ini</b>. Debajo de <b>[config]</b> hay dos líneas como estas:
+	<pre>
+	#localpath=local\
+	#locallist=dict.txt
+	</pre>
+	Necesitas remover el símbolo almohadilla (#). Esto provocará que el programa busque
+	en la carpeta <b>localpath</b> (en este caso <b>local\</b>) y encontrar la lista de
+	diccionarios (en este caso <b>dict.txt</b>) disponible ahí.
+</p>
+
+<p>
+	Si eliges descargar la lista de diccionarios para múltiples idiomas, entonces
+	será necesario puntualizar para cada una lista. Por ejemplo, si descargar para Inglés y
+	Alemán los archivos <b>dict.txt</b>,necesitarás renombrarlos para cada uno de ellos
+	y colocar sus nombres en el archivo <b>dictinstall.ini</b>. Si renombrar el archivo
+	alemán a <b>dict.de.txt</b>, entonces, necesitarás añadir la línea <b>
+	locallist=dict.de.txt</b> a la sección alemana (<b>[de]</b>) del archivo de 
+	configuración:
+	<pre>
+	[de]
+	listurl=http://www.ooodocs.org/dictinstall/de/dict.txt
+	nexthelp=http://www.ooodocs.org/dictinstall/de/nexthelp.html
+	locallist=dict.de.txt
+	</pre>
+	De hecho, en la versión actual, la línea está disponible como un ejemplo, sólo necesitas
+	eliminarla la almohadilla del comienzo de la línea también.
+</p>
+
+<p>
+	Cuando ejecutes el Instalador de Diccionarios, mirará dentro de la carpeta que has
+	especificado y verá que hay una lista de diccionarios allí. Si es así, el programa
+	deberá instalar los diccionarios directamente desde dicha carpeta. Por favor, observa
+	que si el programa no es capaz de encontrar los diccionarios directamente de esa carpeta,
+	automáticamente comenzará a descargar la lista de diccionarios a través de Internet.
+</p>
+
+<p>
+	Si tienes cualquier pregunta o problemas con el funcionamiento del modo local, por favor
+	<a href="mailto:leecorbin@openoffice.org">escríbeme a mi correo-e</a>.
+</p>
+
+<p>
+	Si tienes cualquier duda o correción sobre la traducción, por favor
+	<a href="mailto:rogar@airtel.net">escríbeme a mi correo-e</a>.
+</p>
+
+<h2>Servidores Proxy</h2>
+
+<p>
+	Desde la versión 0.9.3, DictInstall soporta el uso de servidores HTTP proxy. Esto
+	debería permitir usar el programa en muchas redes de internet donde previamente
+	no se podía. Observe en este momento, que el soporte proxy está muy poco testado:
+	<b>cualquier feedback positivo o negativo sobre esta característica será altamente
+	apreciado.</b>.
+</p>
+
+<p>
+	Si estás usando un HTTP proxy para navegar por la web, y usas Internet Explorer,
+	el programa funcionará transparente. Cuando se está ejecutando, busca tus configuraciones
+	de Internet Explorer e intenta usarlas.
+</p>
+
+<p>
+	Si no usas Internet Explorer, o si tienes problemas con esto, necesitarás configurar
+	el proxy manualmente. Para hacer esto, necesitas modificar una línea en el archivo
+	de configuraciones <b>dictinstall.ini</b>.
+	<pre>
+	proxy=auto
+	</pre>
+	Cuando pones <b>auto</b>, el programa busca la configuración del proxy de Internet
+	Explorer y la usa. Si has tenido problemas con esto y deseas desconectar el proxy
+	proxy para configurarlo completamente, cambia esta línea a:
+	<pre>
+	proxy=off
+	</pre>
+	Si estás usando cualquier otro navegador o quieres configurar el proxy manualmente,
+	entonces debes cambiar esta línea para que contenga el servidor y el puerto de tu
+	servidor. Por ejemplo, si tu servidor proxy es en el ordenador <b>myproxy</b>
+	y el puerto <b>8000</b>, entonces debes cambiar la línea a:
+	<pre>
+	proxy=myproxy:8000
+	</pre>
+</p>
+
+<p>
+	Si tienes cualquier comentario o has tenido cualquier problema con la característica
+	de servidor proxy, por favor <a href="mailto:leecorbin@openoffice.org">
+	envíame un correo-e</a>.
+</p>
+
+<p>
+	Si tienes cualquier duda o correción sobre la traducción, por favor escríbeme a 
+	<a href="mailto:rogar@airtel.net">mi correo-e</a>.
+</p>
+
+
+<font size="-2">
+	<p>
+		<hr size="2" color="#06348C">&#169; 2002 Lee Corbin
+		<br />Updated: 22 May 2002 for DictInstall 0.9.3
+	</p>
+
+	<p>
+		<hr size="2" color="#06348C">&#169; 2002 for Translation franzrogar
+		<br />Actualizado: 24 Mayo 2002 para DictInstall 0.9.3
+	</p>
+
+</font>
+
+</font>
+
+</body>
+</html>

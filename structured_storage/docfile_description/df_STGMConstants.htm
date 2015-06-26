@@ -1,0 +1,113 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+<h2><u>STGM Constants</u></h2>
+<p>
+
+If you take a look at the help file, you'll see that there are
+quite a few STGM constants. I'll only discuss the ones used in this
+article and one or two of general interest.<br>
+
+<table border=1>
+	<tr>
+		<td>STGM_WRITE</td>
+		<td>Write only access</td>
+	</tr>
+	<tr>
+		<td>STGM_READ</td>
+		<td>Read only access</td>
+	</tr>
+	<tr>
+		<td>STGM_READWRITE</td>
+		<td>Read &amp; Write Access</td>
+	</tr>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	<tr>
+		<td>STGM_SHARE_DENY_NONE</td>
+		<td>Don't deny subsequent access</td>
+	</tr>
+	<tr>
+		<td>STGM_SHARE_DENY_READ</td>
+		<td>Deny subsequent read access</td>
+	</tr>
+	<tr>
+		<td>STGM_SHARE_DENY_WRITE</td>
+		<td>Deny subsequent write access</td>
+	</tr>
+	<tr>
+		<td>STGM_SHARE_EXCLUSIVE</td>
+		<td>No other app may open the file subsequently</td>
+	</tr>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	<tr>
+		<td>STGM_CREATE</td>
+		<td>If there is an existing stream / storage it is removed. If there
+          is not an existing stream / storage a new one is created 
+      </td>
+	</tr>
+	<tr>
+		<td>STGM_FAILIFTHERE</td>
+      <td>If a storage or stream already exists with the specified name, then fail</td>
+	</tr>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+
+	<tr>
+		<td>STGM_DIRECT</td>
+		<td>All changes to the DocFile occur immediately</td>
+	</tr>
+	<tr>
+		<td>STGM_TRANSACTED</td>
+		<td>Changes are not written until  Commit is called.
+							Similar to commit and rollback in a database.
+							<i>(Not discussed further in this article)</i>
+		</td>
+	</tr>
+
+	<tr>
+		<td>&nbsp;</td>
+		<td>&nbsp;</td>
+	</tr>
+	<tr>
+		<td>STGM_DELETEONRELEASE</td>
+		<td>Storage or stream created with this flag is automatically
+						  deleted when its parent storage is released.  Very useful
+							for temporary files!
+		</td>
+	</tr>
+</table>
+<p>
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_StreamAndStorageNames.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_Creating2.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

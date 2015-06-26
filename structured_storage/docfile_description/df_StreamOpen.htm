@@ -1,0 +1,49 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+<p>
+
+<h2><u>Opening a stream</u></h2>
+<p>
+
+Opening a stream is quite easy, once you have the storage that it is in call
+<p>
+
+<pre><font color="#0000FF">
+   Storage.OpenStream(  Unicode Name,
+                        Reserved must be 0,
+                        STGM constants,
+                        Reserved must be 0,
+                        nil
+                     ) : HResult;
+</font></pre>
+<p>
+
+For our simple application the streams are always in the root storage. Thus the IStorage
+here is the IStorage obtained by opening or creating the DocFile.
+<p>
+The process of opening a stream is so similar to openning a storage that I'm not
+going to discuss it here. If you are not 
+
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_StreamRead1.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_StreamRead2.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+
+</body>
+</html>

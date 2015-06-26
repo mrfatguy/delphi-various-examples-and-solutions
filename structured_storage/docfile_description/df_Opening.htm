@@ -1,0 +1,84 @@
+<html>
+<head>
+<title></title>
+</head>
+<body background="Graphics/bg0198.jpg">
+
+<p>
+<h2><u>Opening a DocFile</u></h2>
+<p>
+
+Opening an existing DocFile is very similar to creating one. 
+You might think that the API call to open a DocFile would be StgOpenDocFile,
+but you'd be wrong...  The API call is StgOpenStorage, remember
+that a DocFile is itself a storage i.e. the root storage, just
+as the root directory is itself a directory.
+<p>
+
+
+<pre><font color="#0000FF">
+   procedure TestOpen;
+   var
+      Hr : HResult;
+      RootStorage : IStorage;
+   begin
+
+         <font color="#FFFFFF">{Try open the DocFile}</font>
+      Hr := StgOpenStorage(  'c:\Temp\MyDocFile.ole',
+                          nil,
+                          STGM_READWRITE or
+                          STGM_DIRECT or STGM_SHARE_EXCLUSIVE,
+                          nil,
+                          0,
+                          RootStorage
+                        );
+
+         <font color="#FFFFFF">{Was is opened?}</font>
+      if(   SUCCEEDED(  Hr  )   ) then
+      begin
+
+         <font color="#FFFFFF">(* Success *)</font>
+
+      end
+      else begin
+
+         <font color="#FFFFFF">(*  Fail  *)</font>
+
+      end;
+   end;
+</font></pre>
+
+<p>
+
+Before opening a file you might want to check if it is in fact a DocFile. This is accomplished by using the
+<b>StgIsStorageFile</b> function.  Pass the name of the file as the only parameter (UniCode string) and the function
+will return <b>S_OK</b> if it is a DocFile.
+<p>
+
+<pre><font color="#0000FF">
+   
+   if(   StgIsStorageFile(  'c:\Temp\MyDocFile.ole'  ) <> S_OK   ) then
+      ShowMessage(  'Not a doc file'  )
+   else
+      ShowMessage(  'Valid DocFile'  );
+</pre></font>
+
+
+
+
+<p><br>
+<hr noshade color="#000000">
+<a href="df_Creating2.htm"><img src="Graphics/l_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<a href="DocFile_Main.htm"><img src="Graphics/home_btn.gif" width=20 height=20 border=0 alt=" "></a>
+<a href="df_StreamCreateWrite.htm"><img src="Graphics/r_arrow.gif" width=29 height=30 border=0 alt=" "></a>
+<hr noshade color="#000000">
+
+<p><br>
+<hr align="left" size="3" color="#ff0000">
+<p>
+<font size="-1">All information on these www pages is copyright (&copy;) 1997  <a href="mailto:dart@pobox.com">Andre .v.d. Merwe</a>
+And may not be copied or mirrored without my permission.
+</font><p>
+
+</body>
+</html>

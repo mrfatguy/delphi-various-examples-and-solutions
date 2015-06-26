@@ -1,0 +1,49 @@
+function KontrolaIBAN(cIban:String):Boolean;
+//wymagana postac IBAN: cc aaaa aaaa bbbb bbbb bbbb bbbb (lub bez
+spacji)
+// cc - liczba kontolna
+// aaaa aaaa Bank
+var
+ cIbanx,cKraj1, cKraj2, cCyfraK:String;
+ j, i, nSumIl: Integer;
+ wagi:array[1..34] of byte;
+begin
+  wagi[1]:=1; wagi[2]:=10; wagi[3]:=3; wagi[4]:=30; wagi[5]:=9;
+wagi[6]:=90; wagi[7]:=27; wagi[8]:=76;
+  wagi[9]:=81; wagi[10]:=34; wagi[11]:=49; wagi[12]:=5; wagi[13]:=50;
+wagi[14]:=15; wagi[15]:=53;
+  wagi[16]:=45; wagi[17]:=62; wagi[18]:=38; wagi[19]:=89; wagi[20]:=17;
+wagi[21]:=73; wagi[22]:=51;
+  wagi[23]:=25; wagi[24]:=56; wagi[25]:=75; wagi[26]:=71; wagi[27]:=31;
+wagi[28]:=19; wagi[29]:=93;
+  wagi[30]:=57; wagi[31]:=85; wagi[32]:=74; wagi[33]:=61; wagi[34]:=28;
+
+  cIban := DelChars(cIban,' ');
+
+  if length(cIban) <> 26 then
+  begin
+     file://('Blad algorytmu sprawdzania cyfry kontrolnej IBAN')
+     KontrolaIBAN:=False;
+     Exit;
+  end;
+
+  cKraj1   := '25'; file://P str( asc( substr(cIban,1,1) ) - 55, 2)
+  cKraj2   := '21'; file://L str( asc( substr(cIban,2,1) ) - 55, 2)
+  cCyfraK := Copy(cIban,1,2);
+
+  file://cIbanx: aaaaaaaabbbbbbbbbbbbbbbbb+kraj+cc
+  cIbanx := Copy(cIban,3,999) + cKraj1 + cKraj2 + cCyfraK;
+
+  nSumIl:=0;
+  j:=0;
+  for i:=length(cIbanx) downto 1 do
+  begin
+    j:=j+1;
+    nSumIl := nSumIl + (  wagi[j] * StrToInt( cIbanx[i]))
+  end;
+  if nSumIl mod 97 = 1 then
+     KontrolaIBAN:=true
+  else
+     KontrolaIBAN:=false;
+
+End;
