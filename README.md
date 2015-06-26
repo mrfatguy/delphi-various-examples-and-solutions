@@ -6,7 +6,7 @@ Here you have various, very old and untested, solutions and examples for Delphi.
 
 Most of these files were written or gathered in period of 1996-2003, that is during regime of Delphi 1.0-4.0 and Windows 95 / XP. Wherever it was possible I tested for compliance with my Windows 7, but **only as for running `.exe` files** and nothing more. I don't have any copy of Delphi currently installed and therefore I'm unable to test source codes itself.
 
-**95% of these files, examples and project are NOT authored by me. It is up to you to find information about proper author and possible license, if you want to use any of these files in your own projects**!
+**Most of these files (except noted), examples and project are NOT authored by me. It is up to you to find information about proper author and possible license, if you want to use any of these files in your own projects**! If you run into my own piece of code, then you're free to do whatever you want with this, according to MIT license.
 
 A very short and limited list of descriptions:
 
@@ -44,13 +44,21 @@ A very short and limited list of descriptions:
 
 - `encrypt` -- cipher libraries, implementations and examples for Delphi, including _ElAES_, _MD5_, _Rot13_, _Multi-ROT_ and some others,
 
+- `excel_automation_example` [**my own**] -- Polish, but hopefully easy to understand / translate, example for Excel automation; use this program to add notes to selected `.xlsx` sheet; see powerful Excel automation in work,
+
+- `exif_reader` [**my own**] -- Polish example for reading EXIF and IPTC data / meta tags from any compatibile `.jpg` or `.tiff` image,
+
 - `file_type_registration` -- an example of how to register own extension in Windows; useful for setups and applications that are able to open, save and operate on own file types,
+
+- `file_watch_dog` [**my own**] -- pick a file an this one will "watch" it, alerting you of any date-time or filesize change; in Polish, but should be easy to translate,
 
 - `flash_demo` -- simple, example Flash player for Delphi,
 
 - `get_ip_address` -- an example on reading username of currently logged in (to Windows) user and local IP address; in Polish; don't be surprised, after running and clicking the button, you'll see absolutely no effect, however a file named `c:\IP.txt` should be created with all above mentioned information; work's of course for LAN IPs only,
 
 - `get_version_info` -- an example on reading `.exe` file's version information,
+
+- `google-like_names_generator` [**my own**] -- probably my only project written in Delphi 2010; used to generate _google.com_-like domain names; last time used in 2010 and helped me [a little bit](http://baagle.com/),
 
 - `help-like_search` -- nearly fifteen (2001) years only Polish example of help-like seeker; type anything and closest match will be selected on list below,
 
@@ -70,13 +78,19 @@ A very short and limited list of descriptions:
 
 - `outlook` -- how to implement old-Outlook-like toolbar without extra components, only using native Delphi components,
 
-- `post_to_newsgroup` -- an example for senting e-mails/posts to some Internet forums; in Polish and old,
+- `post_to_newsgroup` -- an example for senting e-mails/posts to some Internet forums; in Polish,
 
-- `program_shortcuts` -- Polish implementation allowing Delphi applications to create desktop shortcuts to any program or file, 
+- `program_shortcuts` -- Polish implementation allowing Delphi applications to create desktop shortcuts to any program or file,
+
+- `remove_duplicates` -- an example algorithm for removing duplicate list entries with full support for non-Latin characters (but, since in Delphi 5, then still no UTF-8 support),
+
+- `steganography` -- Delphi implementation and example of [Steganography](https://en.wikipedia.org/wiki/Steganography#Digital_text), a technique, that allows you (in this implementation) to "hide" a certain amount of text inside an image,
 
 - `structured_storage` -- a few examples and documents on creating storage files, that is a files that can contain any number of other files; full support for managing such files (reading, writing, browsing); it uses a very weak or even no compression algorithm, so you're not going to write another WinRAR using this example; but, since all operations are in-memory on-the-fly operations, you may consider this code for creating own, complex container files for your application,
 
 - `two_apps_communication` -- how to communicate between two totally separated Delphi applications,
+
+- `txt_to_html_converter` [**my own**] -- converts `.txt` files to `.html` ones adding HTML head, generating title and changing simple line endings into `<br />`; probably has some bugs; in Polish,
 
 - `windows_explorere_like_file_list` -- a nearly complete Delphi example of writing own Windows Explorer-like file browser,
 

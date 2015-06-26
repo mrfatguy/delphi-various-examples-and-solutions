@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2010-03-14 12:02:54.920.pas,D:\Dokumenty\RAD Studio\Projects\Unit1.pas=D:\Delphi\Pchelki i smieci\Generator Google-Like Name\frmMain.pas</Transaction>
+    <Transaction>2010-03-14 12:02:54.920.dfm,D:\Dokumenty\RAD Studio\Projects\Unit1.dfm=D:\Delphi\Pchelki i smieci\Generator Google-Like Name\frmMain.dfm</Transaction>
+    <Transaction>2010-03-14 12:04:00.657.dproj,D:\Dokumenty\RAD Studio\Projects\Project1.dproj=D:\Delphi\Pchelki i smieci\Generator Google-Like Name\GoogleLikeNameFinder.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

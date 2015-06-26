@@ -1,0 +1,4 @@
+Copyright: 2002 Gerry McGuire - All Rights Reserved
+dExif 1.03a
+mcguirez.homestead.com
+mcguirez@hotmail.com
