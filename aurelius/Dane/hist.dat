@@ -1,0 +1,17 @@
+[General]
+Entries=2
+
+[Entry1]
+Date=7 marca 2001
+Entries=5
+Entry1=Pierwsza wersja gry, nigdzie niepublikowana,
+Entry2=Rozpoczêto zapisywanie zmian,
+Entry3=Dodano mo¿liwoœæ przegl¹dania historii gry,
+Entry4=Zmieniono grafikê klawiszy,
+Entry5=Rozmiar plików gry: 686 kB / 771 kB.
+
+[Entry2]
+Date=9 marca 2001
+Entries=2
+Entry1=Dodano modu³ rozpoczêcia nowej gry,
+Entry2=Rozmiar plików gry: 689 kB / 776 kB.

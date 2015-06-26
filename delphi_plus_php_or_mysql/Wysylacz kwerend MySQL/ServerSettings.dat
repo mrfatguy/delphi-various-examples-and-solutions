@@ -1,0 +1,7 @@
+MySQLHost=localhost
+MySQLPort=3306
+MySQLUser=kurs
+MySQLPass=100a213v219f201g149q150h151e
+MySQLDatabase=kurs
+MySQLTime=30
+MySQLQuery=DELETE FROM users WHERE id=9

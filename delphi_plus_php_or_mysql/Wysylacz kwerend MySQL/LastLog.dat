@@ -1,0 +1,7 @@
+[15:41:02] Login: "kurs". Has³o: "*******"
+[15:41:02] £¹czenie z serwerem MySQL "localhost"...
+[15:41:02] Po³¹czony.
+[15:41:02] £¹czenie z baz¹ danych "kurs"...
+[15:41:02] Wysy³anie kwerendy MySQL:
+[15:41:02] DELETE FROM users WHERE id=9
+[15:41:02] =========================================

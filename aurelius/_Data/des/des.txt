@@ -1,0 +1,9 @@
+Okna liczyæ tak:
+
+a) wysokoœæ (Height)
+20 (top) + 38 (bottom) + x*29 (middle)
+Ca³oœæ powiêkszyæ o 27 pikseli.
+
+b) szerokoœæ (Width)
+25 (left) + 25 (right) + x*25 (middle)
+Ca³oœæ powiêkszyæ o 8 pikseli.

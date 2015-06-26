@@ -1,0 +1,55 @@
+-8 1 2
+1 1 0 0 0 0
+Polecenia jawne:
+4 1 0 0 0 0
+zamknij
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+koniec
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+zakoñcz
+0 1 -1 1 0 0
+ - wyjœcie z systemu,
+4 1 0 0 0 0
+konfiguruj
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+konfiguracja
+0 1 -1 1 0 0
+ - uruchamia modu³ konfiguruj¹cy system,
+4 1 0 0 0 0
+poka¿_intro
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+intro
+0 1 -1 1 0 0
+ - wyœwietla krótk¹ historiê Aureliusa,
+4 1 0 0 0 0
+wersja
+0 1 -1 1 0 0
+ - podaje aktualny numer wersji Aureliusa,
+4 1 0 0 0 0
+pomoc
+0 1 -1 1 0 0
+ - uruchamia modu³ pomocy,
+4 1 0 0 0 0
+historia
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+historia_gry
+0 1 -1 1 0 0
+ - otwiera modu³ œledzenia zmian w grze,
+4 1 0 0 0 0
+nowy
+0 1 -1 1 0 0
+, 
+4 1 -1 1 0 0
+utwórz_nowy
+0 1 -1 1 0 0
+ - tworzenie nowego obrazu (rozpoczêcie nowej gry).

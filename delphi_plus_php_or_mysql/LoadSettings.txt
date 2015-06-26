@@ -1,0 +1,3 @@
+	MainForm.MySQLHost.MaxLength := HOSTNAME_LENGTH;
+	MainForm.MySQLUser.MaxLength := USERNAME_LENGTH;
+	MainForm.MySQLPort.Text := IntToStr(MYSQL_PORT);

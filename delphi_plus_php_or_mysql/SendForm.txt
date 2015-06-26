@@ -1,0 +1,49 @@
+procedure TMainForm.SendForm;
+var
+	sHost, sDir, sName, sEmail, sPhone, sQuery, sReturn: String;
+begin
+	if eName.Text='' then
+	begin
+		ShowMessage('Proszê podaæ imiê i nazwisko!');
+		eName.SetFocus;
+		exit;
+	end;
+	if eEmail.Text='' then
+	begin
+		ShowMessage('Proszê podaæ adres e-mail!');
+		eEmail.SetFocus;
+		exit;
+	end;
+	if ePhone.Text='' then
+	begin
+		ShowMessage('Proszê podaæ telefon kontaktowy!');
+		ePhone.SetFocus;
+		exit;
+	end;
+
+	if not Connected then
+	begin
+		ShowMessage('Brak po³¹czenia z Internetem!');
+		exit;
+	end;
+
+	Notebook.PageIndex:=1;
+	Application.ProcessMessages;
+
+	sHost:='www.server.com'; //Server Address
+	sDir:='/dir1/dir2/dir3/add_user.php'; //Path to Script
+	sName:=eName.Text;
+	sEmail:=eEmail.Text;
+	sPhone:=ePhone.Text;
+
+	sQuery:=sDir+'?name='+sName+'&email='+sEmail+'&phone='+sPhone;
+
+	sReturn:=SendData(sHost, '', sQuery, '');
+
+	if (sReturn <> 'error') and (sReturn <> '') then
+	begin
+		lblClientIdent.Caption:=sReturn;
+		Notebook.PageIndex:=2;
+	end
+	else Notebook.PageIndex:=3;
+end;
