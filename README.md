@@ -78,6 +78,10 @@ A very short and limited list of descriptions:
 
 - `miniamp` -- an example of MP3 player (XAudio engine) in Delphi,
 
+- `my_time_sync` [**my own**] -- Polish, quite complex, yet untranslated example for syncing your Windows time, using NTP protocol or implementing this protocol in your own application; much faster and more detailed than core Windows tool plus offering an enormous list of dozens of NTP servers,
+
+- `oem_set` [**my own**] -- Polish and abandoned project, that allowed to change logo displayed, when double clicking _My Computer_ icon on desktop, while pressing <kbd>Right Alt</kbd> button or selecting `Properties` from _My Computer_ icon's context menu; abandoned, because this feature worked up to Windows XP only,
+
 - `move_objects_with_mouse` -- very old and thus very early example of drag-n-drop technique for very early versions of Delphi,
 
 - `mpeg_player` -- Delphi implementation of native Windows support for playing `.avi`, `.mpg`, `.mid` and `.wav` files; in Polish and containing some nasty bugs (try to hit `Cancel` in `Open` dialog),

@@ -1,0 +1,25 @@
+*** Synchornizacja lokalnego zegara uruchomiona: 2008-12-22 10:54:32! ***
+Twój PC:                  192.168.10.27 [tt-133a-4272]
+Serwer czasu:             213.222.193.35 [ntp.certum.pl]
+Numer portu:              123
+Head1.Byte1:              Dec(28), Hex(0000001c) [pierwszy bajt datagramu]
+WskaŸnik sekundy (LI):    0 [brak ostrze¿eñ]
+Numer wersji (VN):        3 [oznaczenie wer. protoko³u]
+Tryb pracy:               4 [serwer]
+Stratum:                  1 [pierwszorzêdne Ÿród³o (np. zegar radiowy)]
+Interwa³ odpytuj¹cy:      0 [2**0 = 1 s, maks. odst. pomiêdzy komunikatami]
+Precyzja zegara serwera:  -20 [2**-20 = 0,000000953674... s = 1048576,0 Hz]
+OpóŸnienie podró¿y:       0,000 s [wzglêdem pierwszorzêdnego Ÿród³a]
+Wspó³czynnik dyspersji:   0,001 s [wzglêdem pierwszorzêdnego Ÿród³a]
+ID Ÿród³a czasu:          PPS
+Ostatni czas Ÿród³a:      2008-12-22 10:54:32,224
+Czas wys³ania PC:         2008-12-22 10:54:32,906 [T1]
+Czas odbioru serwera:     2008-12-22 10:54:38,249 [T2]
+Czas odes³ania serwera:   2008-12-22 10:54:38,249 [T3]
+Czas odbioru PC:          2008-12-22 10:54:32,953 [T4]
+OpóŸnienie podró¿y:       0,047 s [(T4 - T1) - (T3 - T2)]
+Poprawka zegara PC:       5,320 s [((T2 - T1) + (T3 - T4)) / 2]
+Twoja strefa czasowa:     Œrodkowoeuropejski czas stand. [GMT +01:00]
+Poprawiony czas lokalny:  2008-12-22 10:54:38 [poniedzia³ek]
+Poprawiony czas GMT:      2008-12-22 09:54:38 [poniedzia³ek]
+*** Synchornizacja lokalnego zegara zakoñczona! Czas operacji: 735 ms. ***
