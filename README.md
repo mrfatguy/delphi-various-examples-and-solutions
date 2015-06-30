@@ -10,7 +10,7 @@ Most of these files were written or gathered in period of 1996-2003, that is dur
 
 On contrary, you can do, whatever you want (according to MIT license) with my own examples.
 
-A very short and limited list of descriptions:
+List of included examples and projects:
 
 - `agitacja_game` -- a deadly-old (1998) Polish strategic game for two players; set your pawns against your enemy, but be careful, because if your agitators comes to close to your enemy's ones, they'll turn side and become enemy's agitators,
 
@@ -85,6 +85,8 @@ A very short and limited list of descriptions:
 - `move_objects_with_mouse` -- very old and thus very early example of drag-n-drop technique for very early versions of Delphi,
 
 - `mpeg_player` -- Delphi implementation of native Windows support for playing `.avi`, `.mpg`, `.mid` and `.wav` files; in Polish and containing some nasty bugs (try to hit `Cancel` in `Open` dialog),
+
+- `ntslaa` [**my own**] -- Polish and abandoned project, that allowed simple text communication between computers connected to the same network, using net-mailboxes; on some computers it works pretty nice, on others incorrectly detects an IP and since IP field is not editable and user can't change it (don't know, why?) then on these computers it simply does not work; name of this program is an acronym of "_Net Talk Simple Like and Ass_", but unfortunately this is the only part of program translated from Polish to English,
 
 - `only_one_instance` -- how to force user to run only one instance of your application and how to pass run parameters from another copy to the one already running,
 

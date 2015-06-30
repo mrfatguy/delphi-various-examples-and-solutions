@@ -1,0 +1,8 @@
+[Connection]
+LocalPort=5000
+RemotePort=5000
+
+[Program]
+DefaultStatus=0
+DontSaveState=0
+
