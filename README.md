@@ -84,6 +84,8 @@ List of included examples and projects:
 
 - `move_objects_with_mouse` -- very old and thus very early example of drag-n-drop technique for very early versions of Delphi,
 
+- `mp3_player_and_id3tag_reader_or_writer` -- a simple demo project of using [Audio Tools Library](http://mac.cvs.sourceforge.net/viewvc/mac/unstable/Units/ID3v2.pas?view=markup) for reading and writing ID3Tagv3 in `.mp3` files, which was meant to be further implemented in my [delphi-mp3-toolbox](https://github.com/trejder/delphi-mp3-toolbox) project,
+
 - `mpeg_player` -- Delphi implementation of native Windows support for playing `.avi`, `.mpg`, `.mid` and `.wav` files; in Polish and containing some nasty bugs (try to hit `Cancel` in `Open` dialog),
 
 - `ntslaa` [**my own**] -- Polish and abandoned project, that allowed simple text communication between computers connected to the same network, using net-mailboxes; on some computers it works pretty nice, on others incorrectly detects an IP and since IP field is not editable and user can't change it (don't know, why?) then on these computers it simply does not work; name of this program is an acronym of "_Net Talk Simple Like and Ass_", but unfortunately this is the only part of program translated from Polish to English,
